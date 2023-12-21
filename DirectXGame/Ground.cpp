@@ -1,5 +1,6 @@
 ﻿#include "Ground.h"
-#include <ImGuiManager.h>
+#include <assert.h>
+
 void Ground::Initialize(Model* model) {
 
 	assert(model);

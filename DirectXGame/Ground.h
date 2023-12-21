@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include <Model.h>
-#include <WorldTransform.h>
-#include <ViewProjection.h>
+#include "Model.h"
+#include "WorldTransform.h"
+#include "ViewProjection.h"
+
 class Ground {
 
 public:
@@ -21,7 +22,7 @@ private:
 	// モデル
 	Model* model_ = nullptr;
 
-	ViewProjection viewprojection_;
+	//ViewProjection viewprojection_;
 
 
 
