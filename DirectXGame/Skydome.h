@@ -10,8 +10,7 @@ class Skydome {
 	// 初期化
 	//</summary>
 
-	// void Initialize(Model* model,uint32_t textureHandle);
-
+	
 	void Initialize(Model* model);
 
 	//<summary>
@@ -27,6 +26,7 @@ class Skydome {
 	void Draw(ViewProjection& viewProjection_);
 
 private:
+
 	// ワールド変換データ
 	WorldTransform worldTransform_;
 

@@ -8,6 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include  "DebugCamera.h"
+#include <memory>
 #include "Model.h"
 #include "FollowCamera.h"
 #include "Skydome.h"
@@ -58,11 +59,13 @@ private: // メンバ変数
 
 	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
+
 	// デバッグカメラ
 	bool isDebugCameraActive_ = false;
 
 	// フォローカメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+
 		// 天球
 	std::unique_ptr<Skydome> skydome_;
 

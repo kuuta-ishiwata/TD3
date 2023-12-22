@@ -23,11 +23,13 @@ void GameScene::Initialize() {
 	//skydome
 	viewProjection_.farZ = 1400.0f;
 
+
 	skydomeModel_.reset(Model::CreateFromOBJ("skydome", true));
 
 	skydome_ = std::make_unique<Skydome>();
 
 	skydome_->Initialize(skydomeModel_.get());
+
 
 	// グラウンド
 	groundModel_.reset(Model::CreateFromOBJ("ground", true));
@@ -37,8 +39,6 @@ void GameScene::Initialize() {
 
 	ground_->Initialize(groundModel_.get());
 
-
-	
 	// フォローカメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
@@ -79,7 +79,8 @@ void GameScene::Update() {
 
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
-	} else {
+	} 
+	else {
 
 		// 追従カメラの更新
 		// debugCamera_->Update();

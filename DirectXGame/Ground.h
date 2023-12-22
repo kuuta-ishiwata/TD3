@@ -3,30 +3,26 @@
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 
+
 class Ground {
 
-public:
 
+	
+public:
 	void Initialize(Model* model);
 
 	void Update();
 
-	void Draw(ViewProjection& viewprojection);
+	void Draw(ViewProjection& viewProjection);
 
 private:
+	// ワールド変換データ
+	WorldTransform worldTransform_;
 
-	
-	// ワールド変更データ
-	WorldTransform worldtransform_;
+	// ViewProjection viewProjection_;
 
 	// モデル
-	Model* model_ = nullptr;
-
-	//ViewProjection viewprojection_;
-
-
-
-
+	Model* GroundModel_ = nullptr;
 
 
 };
