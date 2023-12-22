@@ -77,6 +77,8 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
 
+	player_ = std::make_unique<Player>();
+	player_->Initialize();
 
 }
 
@@ -85,12 +87,20 @@ void GameScene::Update() {
 	worldTransform_.TransferMatrix();
 	viewProjection_.UpdateMatrix();
 
-	//if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == false) {
-	//	isDebugCameraActive_ = true;
-	//
-	//} else if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == true) {
-	//	isDebugCameraActive_ = false;
-	//}
+	// 天球
+	skydome_->Update();
+
+	// グラウンド
+	ground_->Update();
+
+	player_->Update();
+
+	if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == false) {
+		isDebugCameraActive_ = true;
+
+	} else if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == true) {
+		isDebugCameraActive_ = false;
+	}
 
 
 	// カメラ処理
