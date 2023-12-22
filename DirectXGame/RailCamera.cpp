@@ -10,9 +10,9 @@ void RailCamera::Initialize() {
 	viewProjection_.Initialize();
 
 	// ビュープロジェクションの初期化
-	viewProjection_.farZ = 3000.0f;
+	//viewProjection_.farZ = 3000.0f;
 
-	worldTransform_.translation_.y = 15.0f;
+	//worldTransform_.translation_.y = 5.0f;
 }
 
 void RailCamera::Update() {

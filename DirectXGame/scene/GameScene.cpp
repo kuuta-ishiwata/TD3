@@ -29,11 +29,13 @@ void GameScene::Initialize() {
 	//skydome
 	viewProjection_.farZ = 1400.0f;
 
+
 	skydomeModel_.reset(Model::CreateFromOBJ("skydome", true));
 
 	skydome_ = std::make_unique<Skydome>();
 
 	skydome_->Initialize(skydomeModel_.get());
+
 
 	// グラウンド
 	groundModel_.reset(Model::CreateFromOBJ("ground", true));
@@ -43,13 +45,33 @@ void GameScene::Initialize() {
 
 	ground_->Initialize(groundModel_.get());
 
+	//敵
+	modelFighterHead_.reset(Model::CreateFromOBJ("float_Head", true));
+	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterL_arm_.reset(Model::CreateFromOBJ("float_L_arm", true));
+	modelFighterR_arm_.reset(Model::CreateFromOBJ("float_R_arm", true));
 
-	
+	std::vector<Model*> enemyModels = {
+	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),
+	    modelFighterR_arm_.get()};
+	enemy_ = std::make_unique<Enemy>();
+
+	enemy_->Initialize(enemyModels);
+
+
 	// フォローカメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 
-	
+	//敵キャラに追従カメラセット
+
+
+
+	//// デバッグカメラの生成
+	debugCamera_ = new DebugCamera(1280, 720);
+	//// 軸方向表示を有効にする
+	AxisIndicator::GetInstance()->SetVisible(true);
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
 
 	player_ = std::make_unique<Player>();
 	player_->Initialize();
@@ -93,7 +115,8 @@ void GameScene::Update() {
 
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
-	} else {
+	} 
+	else {
 
 		// 追従カメラの更新
 		// debugCamera_->Update();
@@ -110,6 +133,19 @@ void GameScene::Update() {
 		viewProjection_.TransferMatrix();
 	}
 
+	EnemyObjUpdate();
+
+	UpdateEnemyPopCommands();
+
+
+	// 天球
+	skydome_->Update();
+
+	// グラウンド
+	ground_->Update();
+
+	//敵
+	enemy_->Update();
 }
 
 void GameScene::Draw() {
@@ -146,6 +182,10 @@ void GameScene::Draw() {
 
 	skydome_->Draw(viewProjection_);
 
+	enemy_->Draw(viewProjection_);
+
+	EnemyObjDraw();
+
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -163,4 +203,12 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+
+void GameScene::EnemySpawn(Vector3& Position) {
+
+	
+
+
 }

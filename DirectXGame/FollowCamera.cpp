@@ -8,11 +8,10 @@ void FollowCamera::Initialize() {
 
 	viewProjection_.farZ = 1400.0f;
 
-	viewProjection_.translation_.y = 40.0f;
-
-	// ビュープロジェクションの初期化
-	viewProjection_.Initialize();
+	viewProjection_.translation_.y = 5.0f;
+	viewProjection_.translation_.z = -20.0f;
 }
+
 
 void FollowCamera::Update() {
 
@@ -38,4 +37,5 @@ void FollowCamera::Update() {
 
 	// ビュー行列の更新
 	viewProjection_.UpdateMatrix();
+
 }

@@ -1,23 +1,24 @@
 ﻿#include "Ground.h"
 #include <assert.h>
 
-void Ground::Initialize(Model* model) {
+
+void Ground::Initialize(Model* model)
+{
+
 
 	assert(model);
 
-	model_ = model;
+	GroundModel_ = model;
 
-	worldtransform_.Initialize();
+	worldTransform_.Initialize();
 
-	worldtransform_.scale_ = {
+	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 
-	    0.5f,
-	    0.5f,
-	    0.5f,
-
-	};
 }
 
-void Ground::Update() { worldtransform_.UpdateMatrix(); }
+void Ground::Update() { worldTransform_.UpdateMatrix(); }
 
-void Ground::Draw(ViewProjection& viewProjection) { model_->Draw(worldtransform_, viewProjection); }
+void Ground::Draw(ViewProjection& viewProjection) {
+
+	GroundModel_->Draw(worldTransform_, viewProjection);
+}

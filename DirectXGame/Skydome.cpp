@@ -1,6 +1,5 @@
 ﻿#include "Skydome.h"
-#include <assert.h>
-
+#include  <assert.h>
 
 
 void Skydome::Initialize(Model* model) {
@@ -12,8 +11,7 @@ void Skydome::Initialize(Model* model) {
 
 	worldTransform_.Initialize();
 
-	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
-
+	worldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
 }
 
 void Skydome::Update() { worldTransform_.UpdateMatrix(); }
