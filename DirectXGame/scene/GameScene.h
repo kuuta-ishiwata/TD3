@@ -75,7 +75,7 @@ private: // メンバ変数
 
 	std::unique_ptr<Model> groundModel_;
 
-	ViewProjection viewProjection_;
+	
 
 	std::unique_ptr<Player> player_;
 
