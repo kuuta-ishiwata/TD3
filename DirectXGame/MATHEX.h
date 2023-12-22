@@ -37,4 +37,16 @@ Vector3 Transform(const Vector3 vecter, const Matrix4x4 matrix);
 
 Vector3 Multiply3(const float& v1, const Vector3& v2);
 
+Matrix4x4 MakeRotateMatrix(const Vector3& radian);
+
+Matrix4x4 MakeViewportMatrix(
+    float left, float top, float width, float height, float minDepth, float maxDepth);
+
+Vector3 Multiply(float scalar, const Vector3& v);
+
+Vector3 Subtract(const Vector3& v1, const Vector3& v2);
+
+Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
+
+Vector3 Normalize2(const Vector3& v);
 Vector3 Multiply4(const float& v1, const Vector3& v2);

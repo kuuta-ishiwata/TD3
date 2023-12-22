@@ -20,6 +20,12 @@ void GameScene::Initialize() {
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
 
+	//// デバッグカメラの生成
+	debugCamera_ = new DebugCamera(1280, 720);
+	//// 軸方向表示を有効にする
+	AxisIndicator::GetInstance()->SetVisible(true);
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
+
 	//skydome
 	viewProjection_.farZ = 1400.0f;
 
@@ -84,9 +90,6 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-	worldTransform_.TransferMatrix();
-	viewProjection_.UpdateMatrix();
-
 	// 天球
 	skydome_->Update();
 
@@ -94,6 +97,11 @@ void GameScene::Update() {
 	ground_->Update();
 
 	player_->Update();
+
+	worldTransform_.TransferMatrix();
+	viewProjection_.UpdateMatrix();
+
+	
 
 	if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == false) {
 		isDebugCameraActive_ = true;
