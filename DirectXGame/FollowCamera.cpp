@@ -4,12 +4,14 @@
 #include <Xinput.h>
 
 void FollowCamera::Initialize() {
-	// ビュープロジェクションの初期化
-	viewProjection_.Initialize();
+	
 
 	viewProjection_.farZ = 1400.0f;
 
 	viewProjection_.translation_.y = 40.0f;
+
+	// ビュープロジェクションの初期化
+	viewProjection_.Initialize();
 }
 
 void FollowCamera::Update() {
