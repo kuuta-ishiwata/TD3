@@ -10,6 +10,7 @@ void FollowCamera::Initialize() {
 	viewProjection_.farZ = 1400.0f;
 
 	viewProjection_.translation_.y = 5.0f;
+	viewProjection_.translation_.z = -20.0f;
 }
 
 
