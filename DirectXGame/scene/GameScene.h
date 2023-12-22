@@ -15,7 +15,7 @@
 #include "Ground.h"
 #include "MATHEX.h"
 #include "Enemy.h"
-
+#include <sstream>
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -47,10 +47,26 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 敵発生データの書き込み
+	/// </summary>
+	void LoadEnemyPopData();
+
+	/// <summary>
+	/// 敵発生コマンドの更新
+	/// </summary>
+	void UpdateEnemyPopCommands();
+
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+
+	void EnemySpawn(Vector3& Position);
+	void EnemyObjUpdate();
+	void EnemyObjDraw();
+
 
 		
 	Model* model_;

@@ -5,6 +5,8 @@
 #include "assert.h"
 #include "Input.h"
 #include <vector>
+#include <list>
+
 
 class Enemy : public BaseCharacter {
 
@@ -25,6 +27,16 @@ class Enemy : public BaseCharacter {
 
 	// 描画
 	void Draw(const ViewProjection& viewProjection) override;
+
+	// 浮遊ギミック初期化
+	void InitializeFloatingGimmick();
+	// 浮遊ギミック更新
+	void UpdateFloatingGimmick();
+
+	void BehaviorRootInitialize();
+
+	// 浮遊ギミックの媒介変数
+	float floatingParameter_ = 0.0f;
 
 private:
 

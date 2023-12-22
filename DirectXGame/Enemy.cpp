@@ -5,6 +5,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+
 Vector3 Enemy::GetWorldPosition() {
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得
@@ -57,7 +58,6 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 
 void Enemy::Update()
 {
-	
 
 	// enemy速さ
 	const float kSpeed = 0.1f;
@@ -81,6 +81,7 @@ void Enemy::Update()
 	worldTransformR_arm_.UpdateMatrix();
 
 	BaseCharacter::Update();
+
 }
 
 
@@ -92,4 +93,44 @@ void Enemy::Draw(const ViewProjection& viewProjection)
 	models_[3]->Draw(worldTransformR_arm_, viewProjection);
 
 
+}
+
+
+void Enemy::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
+
+void Enemy::UpdateFloatingGimmick() {
+	// 浮遊移動のサイクル<frame>
+	const uint16_t period = 120;
+
+	// 1フレームでのパラメーター加算値
+	const float step = 2.0f * (float)M_PI / period;
+
+	// パラメーターを1ステップ分加算
+	floatingParameter_ += step;
+
+	// 2πを超えたら0に戻す
+	floatingParameter_ = (float)std::fmod(floatingParameter_, 2.0f * M_PI);
+
+	// 浮遊の振幅<m>
+	const float floatingAmplitude = 0.5f;
+
+	// 浮遊を座標に反映
+	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude;
+
+	// 腕の動き
+	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * 0.75f;
+	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * 0.75f;
+}
+
+void Enemy::BehaviorRootInitialize() {
+	worldTransformL_arm_.rotation_.x = 0.0f;
+	worldTransformR_arm_.rotation_.x = 0.0f;
+	
+	// 浮遊初期化
+	InitializeFloatingGimmick();
+
+	worldTransformBody_.Initialize();
+	worldTransformHead_.Initialize();
+	worldTransformL_arm_.Initialize();
+	worldTransformR_arm_.Initialize();
 }
