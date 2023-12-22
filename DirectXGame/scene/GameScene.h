@@ -16,6 +16,9 @@
 #include "MATHEX.h"
 #include "Enemy.h"
 #include <sstream>
+#include"Player.h"
+#include<memory>
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -106,6 +109,10 @@ private: // メンバ変数
 
 	float count = 0;
 	
+
+	ViewProjection viewProjection_;
+
+	std::unique_ptr<Player> player_;
 
 	/// <summary>
 	/// ゲームシーン用

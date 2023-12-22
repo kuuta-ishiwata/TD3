@@ -123,6 +123,12 @@ void GameScene::Update() {
 		viewProjection_.TransferMatrix();
 	}
 
+	viewProjection_.Initialize();
+
+	player_ = std::make_unique<Player>();
+	player_->Initialize();
+}
+
 	
 
 
@@ -138,6 +144,9 @@ void GameScene::Update() {
 	enemy_->Update();
 
 	
+}
+void GameScene::Update() { 
+	player_->Update();
 }
 
 void GameScene::Draw() {
@@ -174,6 +183,9 @@ void GameScene::Draw() {
 	enemy_->Draw(viewProjection_);
 
 	
+
+	
+	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
