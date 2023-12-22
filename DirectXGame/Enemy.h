@@ -11,6 +11,12 @@ class Enemy : public BaseCharacter {
 	public:
 	Vector3 GetWorldPosition();
 
+	const WorldTransform& GetWorldTransform() { return worldTransformBase_; }
+
+	void SetViewProjection(const ViewProjection* viewprojection) {
+		viewProjection_ = viewprojection;
+	}
+
 	// 初期化
 	void Initialize(const std::vector<Model*>& models) override;
 
@@ -39,6 +45,8 @@ private:
 	Model* enemyFighterHead_ = nullptr; 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+	// カメラのビュープロジェクション
+	const ViewProjection* viewProjection_ = nullptr;
 
 
 
