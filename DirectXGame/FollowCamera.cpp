@@ -12,6 +12,7 @@ void FollowCamera::Initialize() {
 	viewProjection_.translation_.y = 40.0f;
 }
 
+
 void FollowCamera::Update() {
 
 	if (target_) {
@@ -36,4 +37,5 @@ void FollowCamera::Update() {
 
 	// ビュー行列の更新
 	viewProjection_.UpdateMatrix();
+
 }
