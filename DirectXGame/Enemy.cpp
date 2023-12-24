@@ -54,48 +54,6 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 	
 
 }
-
-
-void Enemy::Update()
-{
-
-	// enemy速さ
-	const float kSpeed = 0.1f;
-
-	Vector3 velocity{0.0f, 0.0f, kSpeed};
-
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransformBase_.rotation_);
-
-	//worldTransformBase_.translation_.y += 0.02f;
-	// 移動ベクトルを敵の角度だけ回転
-	velocity = TransformNormal(velocity, worldTransformBase_.matWorld_);
-
-	// 移動量
-	worldTransformBase_.translation_ = Add(worldTransformBase_.translation_, velocity);
-
-	// 行列を定数バッファに転送
-	worldTransformBody_.UpdateMatrix();
-	worldTransformBase_.UpdateMatrix();
-	worldTransformHead_.UpdateMatrix();
-	worldTransformL_arm_.UpdateMatrix();
-	worldTransformR_arm_.UpdateMatrix();
-
-	BaseCharacter::Update();
-
-}
-
-
-void Enemy::Draw(const ViewProjection& viewProjection)
-{
-	models_[0]->Draw(worldTransformBody_, viewProjection);
-	models_[1]->Draw(worldTransformHead_, viewProjection);
-	models_[2]->Draw(worldTransformL_arm_, viewProjection);
-	models_[3]->Draw(worldTransformR_arm_, viewProjection);
-
-
-}
-
-
 void Enemy::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
 
 void Enemy::UpdateFloatingGimmick() {
@@ -119,12 +77,10 @@ void Enemy::UpdateFloatingGimmick() {
 
 	// 腕の動き
 	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * 0.75f;
-	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * 0.75f;
+	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * -0.75f;
 }
 
 void Enemy::BehaviorRootInitialize() {
-	worldTransformL_arm_.rotation_.x = 0.0f;
-	worldTransformR_arm_.rotation_.x = 0.0f;
 	
 	// 浮遊初期化
 	InitializeFloatingGimmick();
@@ -134,3 +90,55 @@ void Enemy::BehaviorRootInitialize() {
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
 }
+
+void Enemy::Update()
+{
+
+	// enemy速さ
+	const float kSpeed = 0.1f;
+
+	Vector3 velocity{0.0f, 0.0f, kSpeed};
+
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransformBase_.rotation_);
+
+	//worldTransformBase_.translation_.y += 0.02f;
+	// 移動ベクトルを敵の角度だけ回転
+	velocity = TransformNormal(velocity, worldTransformBase_.matWorld_);
+
+	// 移動量
+	worldTransformBase_.translation_ = Add(worldTransformBase_.translation_, velocity);
+
+
+	UpdateFloatingGimmick();
+
+	// 行列を定数バッファに転送
+	worldTransformBody_.UpdateMatrix();
+	worldTransformBase_.UpdateMatrix();
+	worldTransformHead_.UpdateMatrix();
+	worldTransformL_arm_.UpdateMatrix();
+	worldTransformR_arm_.UpdateMatrix();
+
+	BaseCharacter::Update();
+
+}
+
+void Enemy::OnCollision()
+{ 
+	isdead_ = true;
+
+}
+
+void Enemy::Draw(const ViewProjection& viewProjection)
+{
+
+	if (isdead_ == false)
+	{
+		models_[0]->Draw(worldTransformBody_, viewProjection);
+		models_[1]->Draw(worldTransformHead_, viewProjection);
+		models_[2]->Draw(worldTransformL_arm_, viewProjection);
+		models_[3]->Draw(worldTransformR_arm_, viewProjection);
+	}
+
+}
+
+

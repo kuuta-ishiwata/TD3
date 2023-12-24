@@ -58,14 +58,16 @@ public: // メンバ関数
 	void UpdateEnemyPopCommands();
 
 
+	//void CheakCollision();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
-	void EnemySpawn(Vector3& Position);
-	void EnemyObjUpdate();
-	void EnemyObjDraw();
+	//void EnemySpawn(Vector3& Position);
+	//void EnemyObjUpdate();
+	//void EnemyObjDraw();
 
 
 		

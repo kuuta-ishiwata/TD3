@@ -38,6 +38,16 @@ class Enemy : public BaseCharacter {
 	// 浮遊ギミックの媒介変数
 	float floatingParameter_ = 0.0f;
 
+	//敵死ぬ
+	void OnCollision();
+	bool isDead() const
+	{ 
+
+		return isdead_;
+
+	}
+
+
 private:
 
 	// ワールド変換データ
@@ -60,6 +70,6 @@ private:
 	// カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 
-
+	bool isdead_ = false;
 
 };
