@@ -6,7 +6,8 @@
 #include <math.h>
 
 
-Vector3 Enemy::GetWorldPosition() {
+Vector3 Enemy::GetWorldPosition()
+{
 
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得
@@ -140,6 +141,7 @@ void Enemy::Update()
 
 void Enemy::OnCollision()
 { 
+
 	isdead_ = true;
 
 }
@@ -150,15 +152,10 @@ void Enemy::Draw(const ViewProjection& viewProjection)
 	Vector3 move = {5.0f,5.0f,5.0f};	
 	if (isdead_ == false)
 	{
-
 		models_[0]->Draw(worldTransformBody_, viewProjection);
 		models_[1]->Draw(worldTransformBody2_, viewProjection);
 		models_[2]->Draw(worldTransformBody3_, viewProjection);
 		models_[3]->Draw(worldTransformBody4_, viewProjection);
-
-	
-	
-
 	}
 	
 	

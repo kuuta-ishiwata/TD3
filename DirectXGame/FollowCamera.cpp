@@ -4,6 +4,7 @@
 #include <Xinput.h>
 
 void FollowCamera::Initialize() {
+
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
@@ -11,6 +12,7 @@ void FollowCamera::Initialize() {
 
 	viewProjection_.translation_.y = 5.0f;
 	viewProjection_.translation_.z = -20.0f;
+
 }
 
 
