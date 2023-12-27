@@ -17,7 +17,7 @@ public:
 	void Draw(ViewProjection& viewProjection);
 
 // スクリーン変換からワールド変換
-	void ScreenWorldTransformation(ViewProjection& viewProjection);
+	//void ScreenWorldTransformation(ViewProjection& viewProjection);
 
 	private:
 	WorldTransform worldTransform_;

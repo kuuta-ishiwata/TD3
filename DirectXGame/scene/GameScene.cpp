@@ -133,9 +133,9 @@ void GameScene::Update() {
 		viewProjection_.TransferMatrix();
 	}
 
-	EnemyObjUpdate();
+	//EnemyObjUpdate();
 
-	UpdateEnemyPopCommands();
+	//UpdateEnemyPopCommands();
 
 
 	// 天球
@@ -184,7 +184,7 @@ void GameScene::Draw() {
 
 	enemy_->Draw(viewProjection_);
 
-	EnemyObjDraw();
+	//EnemyObjDraw();
 
 
 	// 3Dオブジェクト描画後処理
@@ -206,9 +206,9 @@ void GameScene::Draw() {
 }
 
 
-void GameScene::EnemySpawn(Vector3& Position) {
-
-	
-
-
-}
+//void GameScene::EnemySpawn(Vector3& Position) {
+//
+//	
+//
+//
+//}
