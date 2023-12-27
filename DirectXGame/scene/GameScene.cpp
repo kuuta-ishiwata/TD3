@@ -146,7 +146,9 @@ void GameScene::Update() {
 	player_ = std::make_unique<Player>();
 	player_->Initialize();
 }
+	//EnemyObjUpdate();
 
+	//UpdateEnemyPopCommands();
 	
 
 
@@ -200,7 +202,8 @@ void GameScene::Draw() {
 
 	enemy_->Draw(viewProjection_);
 
-	
+	//EnemyObjDraw();
+
 
 	
 	player_->Draw(viewProjection_);
@@ -224,6 +227,13 @@ void GameScene::Draw() {
 
 }
 
+
+//void GameScene::EnemySpawn(Vector3& Position) {
+//
+//	
+//
+//
+//}
 //void GameScene::CheckAllCollisions() {}
 
 
