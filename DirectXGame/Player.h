@@ -51,7 +51,7 @@ private:
 	WorldTransform worldTransform3DReticle_;
 
 	bool isSpeed = false;
-	const float startSpeed = 0.75f;
+	const float startSpeed = 1.0f;
 	bool isHitBlock_ = false;
 	int hitDownTime_ = 0;
 	const int kHitDownTime_ = 0;

@@ -111,6 +111,8 @@ void GameScene::Update() {
 	// グラウンド
 	ground_->Update();
 
+	CheckAllCollisions();
+
 	//プレイヤー
 	player_->Update(viewProjection_);
 
@@ -128,7 +130,6 @@ void GameScene::Update() {
 		return false;
 	});
 
-	CheckAllCollisions();
 	worldTransform_.UpdateMatrix();
 }
 
