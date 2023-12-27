@@ -1,30 +1,51 @@
 #pragma once
-#include"WorldTransform.h"
-#include"Model.h"
-#include"ImGuiManager.h"
-#include"MATHEX.h"
+#include "ImGuiManager.h"
 #include "Input.h"
-#include"WinApp.h"
+#include "Model.h"
+#include "WorldTransform.h"
+#include <Sprite.h>
+#include <WinApp.h>
+#include"MATHEX.h"
 #include"ViewProjection.h"
-
+#include"TextureManager.h"
 class Player {
 public:
+	~Player();
 
-	void Initialize();
+	void Initialize(Model* model, uint32_t textureHandle);
 
-	void Update();
+	void Update(ViewProjection& viewProjection);
 
 	void Draw(ViewProjection& viewProjection);
 
-// スクリーン変換からワールド変換
-	//void ScreenWorldTransformation(ViewProjection& viewProjection);
+	void ScreenWorldTransformation(ViewProjection& viewProjection);
 
-	private:
+	void Attack();
+
+	
+
+	Vector3 GetWorldPosition3DReticle();
+
+	Vector3 GetWorldPosition();
+
+private:
+	// ワールド変換データ
 	WorldTransform worldTransform_;
-
+	// モデル
 	Model* model_ = nullptr;
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0u;
 
-	// ゲームパッドの状態を得る変数
-	XINPUT_STATE joyState;
+	// キーボード入力
+	Input* input_ = nullptr;
 
+	// 速度
+	Vector3 velocity_;
+
+	// 3Dレティクル用ワールドトランスフォーム
+	WorldTransform worldTransform3DReticle_;
+
+	
+
+	bool isSpeed = false;
 };

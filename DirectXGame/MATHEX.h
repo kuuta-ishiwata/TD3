@@ -46,7 +46,7 @@ Vector3 Multiply(float scalar, const Vector3& v);
 
 Vector3 Subtract(const Vector3& v1, const Vector3& v2);
 
-Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
+
 
 Vector3 Normalize2(const Vector3& v);
 Vector3 Multiply4(const float& v1, const Vector3& v2);
