@@ -73,8 +73,8 @@ void GameScene::Initialize() {
 
 	//敵キャラに追従カメラセット
 
-	//followCamera_->SetTarget(&enemy_->GetWorldTransform());
-	//enemy_->SetViewProjection(&followCamera_->GetViewProjection());
+	followCamera_->SetTarget(&enemy_->GetWorldTransform());
+	enemy_->SetViewProjection(&followCamera_->GetViewProjection());
 
 
 	//// デバッグカメラの生成
