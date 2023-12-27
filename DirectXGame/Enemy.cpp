@@ -128,8 +128,8 @@ void Enemy::Update()
 	UpdateFloatingGimmick();
 
 	// 行列を定数バッファに転送
-	worldTransformBody_.UpdateMatrix();
 	worldTransformBase_.UpdateMatrix();
+	worldTransformBody_.UpdateMatrix();
 	worldTransformBody2_.UpdateMatrix();
 	worldTransformBody3_.UpdateMatrix();
 	worldTransformBody4_.UpdateMatrix();
