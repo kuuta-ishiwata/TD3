@@ -2,10 +2,37 @@
 #include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
-#include <variant>
-#include <map>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <variant>
+
+void GameScene::CheckAllCollisions() {
+	// 判定対象AとBの座標
+	Vector3 posA, posB;
+#pragma region 自キャラと敵キャラの当たり判定
+	// 自キャラの座標
+	posA = player_->GetWorldPosition();
+
+	// 敵キャラの座標
+	for (std::unique_ptr<Enemy>& enemy : enemies_) {
+		posB = enemy->GetWorldPosition();
+
+		// 座標AとBの距離を求める
+		// 交差判定
+		if (posA.z + 1.0f >= posB.z && posA.z <= posB.z + 1.0f) {
+			if (posA.y + 1.0f >= posB.y && posA.y <= posB.y + 1.0f) {
+				if (posA.x + 1.0f >= posB.x && posA.x <= posB.x + 1.0f) {
+					// 自弾の衝突時コールバックを呼び出す
+					player_->OnCollision();
+					// 敵キャラの衝突時コールバックを呼び出す
+					enemy->OnCollision();
+				}
+			}
+		}
+	}
+#pragma endregion
+}
 
 GameScene::GameScene() {}
 
@@ -69,60 +96,40 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-	// 天球
-	skydome_->Update();
-
-	// グラウンド
-	ground_->Update();
-
-	player_->Update(viewProjection_);
-
-	worldTransform_.TransferMatrix();
+	// ビュープロジェクション行列の更新と転送
 	viewProjection_.UpdateMatrix();
 
-	// if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == false) {
-	//	isDebugCameraActive_ = true;
-	//
-	// } else if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == true) {
-	//	isDebugCameraActive_ = false;
-	// }
+	followCamera_->Update();
+	viewProjection_.matView = followCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 
-	// カメラ処理
-	if (isDebugCameraActive_) {
-		// followCamera_->Update();
-
-		debugCamera_->Update();
-
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-
-		// ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
-	} else {
-
-		followCamera_->Update();
-
-		viewProjection_.matView = followCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
-
-		// viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		// viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-
-		// ビュープロジェクション行列の更新と転送
-		viewProjection_.TransferMatrix();
-	}
+	viewProjection_.TransferMatrix();
 
 	// 天球
 	skydome_->Update();
 
 	// グラウンド
 	ground_->Update();
+
+	//プレイヤー
+	player_->Update(viewProjection_);
 
 	// 敵の発生と更新
 	UpdateEnemyPopCommands();
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
 		enemy->Update();
 	}
+	// デスフラグの立った敵を削除
+	enemies_.remove_if([](std::unique_ptr<Enemy>& enemy) {
+		if (enemy->IsDead()) {
+			delete enemy.release();
+			return true;
+		}
+		return false;
+	});
+
+	CheckAllCollisions();
+	worldTransform_.UpdateMatrix();
 }
 
 void GameScene::Draw() {
@@ -152,15 +159,15 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	player_->Draw(viewProjection_);
+	skydome_->Draw(viewProjection_);
 
 	ground_->Draw(viewProjection_);
-
-	skydome_->Draw(viewProjection_);
 
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
 		enemy->Draw(viewProjection_);
 	}
+
+	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

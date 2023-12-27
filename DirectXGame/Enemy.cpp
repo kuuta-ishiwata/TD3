@@ -8,6 +8,8 @@
 #include "Player.h"
 #include "GameScene.h"
 
+void Enemy::OnCollision() { isDead_ = true; }
+
 Vector3 Enemy::GetWorldPosition() {
 
 	Vector3 worldPos;
@@ -17,7 +19,6 @@ Vector3 Enemy::GetWorldPosition() {
 	worldPos.z = worldTransformBase_.matWorld_.m[3][2];
 
 	return worldPos;
-
 }
 
 void Enemy::Initialize(const std::vector<Model*>& models) {
@@ -106,13 +107,9 @@ void Enemy::Update()
 	worldTransformBase_.UpdateMatrix();
 }
 
-void Enemy::OnCollision(){ 
-	isdead_ = true;
-}
-
 void Enemy::Draw(const ViewProjection& viewProjection)
 {
-	if (!isdead_){
+	if (!isDead_){
 		models_[0]->Draw(worldTransformBody_, viewProjection);
 	}
 }

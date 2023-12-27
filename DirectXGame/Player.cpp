@@ -4,6 +4,8 @@
 
 Player::~Player() {}
 
+void Player::OnCollision() { isHitBlock_ = true; }
+
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// NULLポインタチェック
 	assert(model);
@@ -33,9 +35,9 @@ void Player::Update(ViewProjection& viewProjection) {
 	if (input_->IsTriggerMouse(WM_RBUTTONDOWN == 0)) {
 		isAttack_ = true;
 	}
-	else if (input_->IsTriggerMouse(WM_LBUTTONDOWN != 0)) {
+	/*else if (input_->IsTriggerMouse(WM_LBUTTONDOWN != 0)) {
 		isHitBlock_ = true;
-	}
+	}*/
 
 	// 攻撃
 	if (isAttack_) {

@@ -44,16 +44,15 @@ class Enemy : public BaseCharacter {
 	float floatingParameter_ = 0.0f;
 
 	//敵死ぬ
-	void OnCollision();
-	bool isDead() const
-	{ 
-		return isdead_;
-	}
+	bool IsDead() const	{ return isDead_;}
 
 	void GetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
 	}
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
+	// 衝突を検出したら呼び出されるコールバック関数
+	void OnCollision();
 
 private:
 
@@ -72,7 +71,7 @@ private:
 	// カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 
-	bool isdead_ = false;
+	bool isDead_ = false;
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
