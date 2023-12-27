@@ -75,7 +75,7 @@ private: // メンバ変数
 
 
 		
-	Model* model_;
+	std::unique_ptr<Model> model_;
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 
@@ -114,6 +114,8 @@ private: // メンバ変数
 	
 
 	std::unique_ptr<Player> player_;
+
+	uint32_t textureHandle_ = 0u;
 
 	/// <summary>
 	/// ゲームシーン用

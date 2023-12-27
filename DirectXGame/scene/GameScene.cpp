@@ -16,7 +16,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	model_ = Model::Create();
+	model_.reset(Model::Create());
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
 
@@ -83,8 +83,11 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
 
+	textureHandle_ = TextureManager::Load("sample.png");
+
 	player_ = std::make_unique<Player>();
-	player_->Initialize();
+	// 自キャラの初期化
+	player_->Initialize(model_.get(), textureHandle_);
 
 }
 
@@ -96,7 +99,7 @@ void GameScene::Update() {
 	// グラウンド
 	ground_->Update();
 
-	player_->Update();
+	player_->Update(viewProjection_);
 
 	worldTransform_.TransferMatrix();
 	viewProjection_.UpdateMatrix();
