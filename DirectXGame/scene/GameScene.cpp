@@ -106,7 +106,7 @@ void GameScene::Update() {
 	// 敵
 	enemy_->Update();
 
-	player_->Update(viewProjection_);
+
 
 	worldTransform_.TransferMatrix();
 	viewProjection_.UpdateMatrix();
@@ -151,13 +151,13 @@ void GameScene::Update() {
 		viewProjection_.TransferMatrix();
 	}
 
+	//EnemyObjUpdate();
 
+	// UpdateEnemyPopCommands();
 
 
 }
-	//EnemyObjUpdate();
-
-	//UpdateEnemyPopCommands();
+	
 	
 
 
