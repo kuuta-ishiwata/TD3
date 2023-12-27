@@ -58,6 +58,10 @@ void GameScene::Initialize() {
 	// 自キャラに追従カメラセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 
+	// エネミー
+	LoadEnemyPopData();
+	UpdateEnemyPopCommands();
+
 	//// 軸方向表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
