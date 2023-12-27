@@ -3,7 +3,8 @@
 #include <Input.h>
 #include <Xinput.h>
 
-void FollowCamera::Initialize() {
+void FollowCamera::Initialize()
+{
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
