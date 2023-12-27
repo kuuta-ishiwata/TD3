@@ -2,6 +2,10 @@
 #include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
+#include <variant>
+#include <map>
+#include <fstream>
+#include <iostream>
 
 GameScene::GameScene() {}
 
@@ -53,16 +57,6 @@ void GameScene::Initialize() {
 	player_->Initialize(model_.get(), textureHandle_);
 	// 自キャラに追従カメラセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
-
-	// 敵キャラの初期化
-	std::vector<Model*> enemyModels = {
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	};
-	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize(enemyModels);
 
 	//// 軸方向表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
@@ -120,8 +114,11 @@ void GameScene::Update() {
 	// グラウンド
 	ground_->Update();
 
-	// 敵
-	enemy_->Update();
+	// 敵の発生と更新
+	UpdateEnemyPopCommands();
+	for (std::unique_ptr<Enemy>& enemy : enemies_) {
+		enemy->Update();
+	}
 }
 
 void GameScene::Draw() {
@@ -157,7 +154,9 @@ void GameScene::Draw() {
 
 	skydome_->Draw(viewProjection_);
 
-	enemy_->Draw(viewProjection_);
+	for (std::unique_ptr<Enemy>& enemy : enemies_) {
+		enemy->Draw(viewProjection_);
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -178,3 +177,108 @@ void GameScene::Draw() {
 }
 
 // void GameScene::CheckAllCollisions() {}
+
+// 敵発生データの読み込み
+void GameScene::LoadEnemyPopData() {
+	// ファイルを開く
+	std::ifstream file;
+	file.open("./Resources/enemyPop.csv");
+	assert(file.is_open());
+
+	// ファイルの内容を文字列ストリームにコピー
+	enemyPopCommands << file.rdbuf();
+
+	// ファイルを閉じる
+	file.close();
+}
+
+// 敵発生コマンドの更新
+void GameScene::UpdateEnemyPopCommands() {
+	// 待機処理
+	if (isWait) {
+		waitTimer--;
+		if (waitTimer <= 0) {
+			// 待機完了
+			isWait = false;
+		}
+		return;
+	}
+
+	// 1行文の文字列を入れる変数
+	std::string line;
+
+	// コマンド実行ループ
+	while (getline(enemyPopCommands, line)) {
+		// 1行文分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+		//"//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// X座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// Y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// Z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			EnemyPop(Vector3(x, y, z));
+		}
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			isWait = true;
+			waitTimer = waitTime;
+
+			// コマンドループを抜ける
+			break; // 重要
+		}
+	}
+}
+
+// 敵発生関数
+void GameScene::EnemyPop(Vector3 pos) {
+	// 敵キャラの初期化
+	std::vector<Model*> enemyModels = {
+	    modelFighterBody_.get(),
+	    modelFighterBody_.get(),
+	    modelFighterBody_.get(),
+	    modelFighterBody_.get(),
+	};
+
+	// 敵の生成
+	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+	// 初期化
+	newEnemy->Initialize(enemyModels);
+	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
+	enemies_.push_back(std::move(newEnemy));
+
+	// イテレータ
+	for (std::unique_ptr<Enemy>& enemy : enemies_) {
+		// 各セッターに値を代入
+		SetEnemyPopPos(pos);
+		enemy->GetViewProjection(&followCamera_->GetViewProjection());
+		enemy->SetGameScene(this);
+		// 更新
+		enemy->Update();
+	}
+}

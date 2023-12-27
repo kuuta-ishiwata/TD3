@@ -17,7 +17,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
 
-	velocity_ = {0.0f, 0.0f, startSpeed};
+	velocity_ = {0.0f, 0.0f, 0.0f};
 	isHitBlock_ = false;
 	isAttack_ = false;
 	hitDownTime_ = kHitDownTime_;

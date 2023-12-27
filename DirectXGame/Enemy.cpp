@@ -5,6 +5,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "Player.h"
+#include "GameScene.h"
 
 Vector3 Enemy::GetWorldPosition() {
 
@@ -127,15 +129,24 @@ void Enemy::Update()
 
 	UpdateFloatingGimmick();
 
+#ifdef _DEBUG
+
+	ImGui::Begin("window");
+	if (ImGui::TreeNode("Enemy")) {
+	    ImGui::SliderFloat3("translation", &worldTransformBody_.translation_.x, -10.0f, 10.0f);
+		ImGui::TreePop();
+	}
+	ImGui::End();
+
+#endif // _DEBUG
+
 	// 行列を定数バッファに転送
+	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
 	worldTransformBase_.UpdateMatrix();
 	worldTransformBody2_.UpdateMatrix();
 	worldTransformBody3_.UpdateMatrix();
 	worldTransformBody4_.UpdateMatrix();
-
-	BaseCharacter::Update();
-
 }
 
 void Enemy::OnCollision()

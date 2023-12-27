@@ -16,9 +16,8 @@
 #include "MATHEX.h"
 #include "Enemy.h"
 #include <sstream>
-#include"Player.h"
-#include<memory>
-
+#include "Player.h"
+#include <memory>
 
 /// <summary>
 /// ゲームシーン
@@ -51,16 +50,23 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	/// <summary>
-	/// 敵発生データの書き込み
+	/// <summary>	
+	// 敵発生データの読み込み
 	/// </summary>
 	void LoadEnemyPopData();
 
 	/// <summary>
-	/// 敵発生コマンドの更新
+	// 敵発生コマンドの更新
 	/// </summary>
 	void UpdateEnemyPopCommands();
 
+	/// <summary>
+	// 敵発生関数
+	/// </summary>
+	void EnemyPop(Vector3 pos);
+
+	Vector3 GetEnemyPopPos() { return enemyPopPos; }
+	void SetEnemyPopPos(Vector3 pos) { enemyPopPos = pos; }
 
 	//void CheakCollision();
 
@@ -69,20 +75,14 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
-	//void EnemySpawn(Vector3& Position);
-	//void EnemyObjUpdate();
-	//void EnemyObjDraw();
-
-
-		
 	std::unique_ptr<Model> model_;
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 
-	// デバッグカメラ
-	DebugCamera* debugCamera_ = nullptr;
+	uint32_t textureHandle_ = 0u;
 
 	// デバッグカメラ
+	DebugCamera* debugCamera_ = nullptr;
 	bool isDebugCameraActive_ = false;
 
 	// フォローカメラ
@@ -90,17 +90,26 @@ private: // メンバ変数
 
 		// 天球
 	std::unique_ptr<Skydome> skydome_;
-
 	std::unique_ptr<Model> skydomeModel_;
 
 		// グラウンド
 	std::unique_ptr<Ground> ground_;
-
 	std::unique_ptr<Model> groundModel_;
 
-	// 敵キャラ
-	std::unique_ptr<Enemy> enemy_;
-	
+	//プレイヤー
+	std::unique_ptr<Player> player_;
+
+	// エネミー
+	std::list<std::unique_ptr<Enemy>> enemies_;
+	// 敵リストを取得
+	// 敵発生コマンド
+	std::stringstream enemyPopCommands;
+	Vector3 enemyPopPos = {};
+
+	// 待機中フラグ
+	bool isWait = false;
+	// 待機タイマー
+	uint32_t waitTimer = 0;
 
 	// 3Dモデル
 	std::unique_ptr<Model> modelFighterBody_;
@@ -109,13 +118,6 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelFighterBody4_;
 
 	float count = 0;
-	
-
-	
-
-	std::unique_ptr<Player> player_;
-
-	uint32_t textureHandle_ = 0u;
 
 	/// <summary>
 	/// ゲームシーン用

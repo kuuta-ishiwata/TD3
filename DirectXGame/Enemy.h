@@ -7,6 +7,11 @@
 #include <vector>
 #include <list>
 
+// 自機クラスの前方宣言
+class Player;
+
+// GameSceneクラスの前方宣言
+class GameScene;
 
 class Enemy : public BaseCharacter {
 
@@ -45,11 +50,13 @@ class Enemy : public BaseCharacter {
 	void OnCollision();
 	bool isDead() const
 	{ 
-
 		return isdead_;
-
 	}
 
+	void GetViewProjection(const ViewProjection* viewProjection) {
+		viewProjection_ = viewProjection;
+	}
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 private:
 
@@ -78,4 +85,6 @@ private:
 
 	bool isdead_ = false;
 
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 };
