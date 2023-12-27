@@ -36,10 +36,10 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 
 	// X,Y,Z方向のスケーリングを設定
 	worldTransformBase_.scale_ = {1.0f, 1.0f, 1.0f};
-	worldTransformBase_.translation_ = {0.0f, 2.0f, 10.0f};
+	worldTransformBase_.translation_ = {0.0f, 0.0f, 10.0f};
 
 	// 腕の座標指定
-	worldTransformBody_.translation_.x = 4.0f;
+	worldTransformBody_.translation_.x = 0.0f;
 }
 
 void Enemy::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }

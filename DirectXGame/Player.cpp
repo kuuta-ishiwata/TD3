@@ -19,6 +19,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
 
+	worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
 	velocity_ = {0.0f, 0.0f, 0.0f};
 	isHitBlock_ = false;
 	isAttack_ = false;
