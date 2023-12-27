@@ -89,6 +89,8 @@ void GameScene::Initialize() {
 	// 自キャラの初期化
 	player_->Initialize(model_.get(), textureHandle_);
 
+		
+
 }
 
 void GameScene::Update() {
@@ -98,6 +100,11 @@ void GameScene::Update() {
 
 	// グラウンド
 	ground_->Update();
+
+	player_->Update(viewProjection_);
+
+	// 敵
+	enemy_->Update();
 
 	player_->Update(viewProjection_);
 
@@ -144,10 +151,9 @@ void GameScene::Update() {
 		viewProjection_.TransferMatrix();
 	}
 
-	viewProjection_.Initialize();
 
-	player_ = std::make_unique<Player>();
-	player_->Initialize();
+
+
 }
 	//EnemyObjUpdate();
 
@@ -157,20 +163,12 @@ void GameScene::Update() {
 
 
 
-	// 天球
-	skydome_->Update();
+	
 
-	// グラウンド
-	ground_->Update();
-
-	//敵
-	enemy_->Update();
 
 	
-}
-void GameScene::Update() { 
-	player_->Update();
-}
+
+
 
 void GameScene::Draw() {
 

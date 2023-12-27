@@ -110,7 +110,7 @@ private: // メンバ変数
 	float count = 0;
 	
 
-	ViewProjection viewProjection_;
+	
 
 	std::unique_ptr<Player> player_;
 
