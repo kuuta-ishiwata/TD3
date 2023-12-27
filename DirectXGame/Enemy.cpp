@@ -7,6 +7,7 @@
 
 
 Vector3 Enemy::GetWorldPosition() {
+
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得
 	worldPos.x = worldTransformBase_.matWorld_.m[3][0];
@@ -14,6 +15,7 @@ Vector3 Enemy::GetWorldPosition() {
 	worldPos.z = worldTransformBase_.matWorld_.m[3][2];
 
 	return worldPos;
+
 }
 
 void Enemy::Initialize(const std::vector<Model*>& models) {
@@ -23,37 +25,47 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 	// 基底クラスの初期化
 	BaseCharacter::Initialize(models);
 
-	worldTransformBase_.Initialize();
-	worldTransformHead_.Initialize();
+	
+	worldTransformBody2_.Initialize();
 	worldTransformBody_.Initialize();
-	worldTransformL_arm_.Initialize();
-	worldTransformR_arm_.Initialize();
+	worldTransformBody3_.Initialize();
+	worldTransformBody4_.Initialize();
+
 
 	worldTransformBody_.parent_ = &worldTransformBase_;
-	worldTransformHead_.parent_ = &worldTransformBody_;
-	worldTransformL_arm_.parent_ = &worldTransformBody_;
-	worldTransformR_arm_.parent_ = &worldTransformBody_;
+	worldTransformBody2_.parent_ = &worldTransformBody_;
+	worldTransformBody3_.parent_ = &worldTransformBody_;
+	worldTransformBody4_.parent_ = &worldTransformBody_;
 
 	// ワールドトランスフォームの初期化
 	worldTransformBase_.Initialize();
 
 	// X,Y,Z方向のスケーリングを設定
 	worldTransformBase_.scale_ = {1.0f, 1.0f, 1.0f};
-	worldTransformBase_.translation_ = {0.0f, 2.0f, -5.0f};
-
-	
+	worldTransformBase_.translation_ = {0.0f, 2.0f, 10.0f};
 
 	// 腕の座標指定
-	worldTransformHead_.translation_.y = 1.5f;
-	worldTransformL_arm_.translation_.x = -0.5f;
-	worldTransformR_arm_.translation_.x = 0.5f;
-	worldTransformL_arm_.translation_.y = 1.3f;
-	worldTransformR_arm_.translation_.y = 1.3f;
+	worldTransformBody_.translation_.x = 4.0f;
 
+	worldTransformBody2_.translation_.x = -3.0f;
+	worldTransformBody2_.translation_.z = -6.0f;
 	
+
+	worldTransformBody3_.translation_.x = 2.5f;
+	worldTransformBody3_.translation_.z = 7.5f;
+
+
+
+	worldTransformBody4_.translation_.x = -5.5f;
+	worldTransformBody4_.translation_.z = 6.5f;
+	
+
 	
 
 }
+
+
+
 void Enemy::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
 
 void Enemy::UpdateFloatingGimmick() {
@@ -76,8 +88,9 @@ void Enemy::UpdateFloatingGimmick() {
 	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude;
 
 	// 腕の動き
-	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * 0.75f;
-	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * -0.75f;
+	//worldTransformBody3_.rotation_.x = std::sin(floatingParameter_) * 0.75f;
+	//worldTransformBody4_.rotation_.x = std::sin(floatingParameter_) * -0.75f;
+
 }
 
 void Enemy::BehaviorRootInitialize() {
@@ -86,9 +99,12 @@ void Enemy::BehaviorRootInitialize() {
 	InitializeFloatingGimmick();
 
 	worldTransformBody_.Initialize();
-	worldTransformHead_.Initialize();
-	worldTransformL_arm_.Initialize();
-	worldTransformR_arm_.Initialize();
+	worldTransformBody2_.Initialize();
+	worldTransformBody3_.Initialize();
+	worldTransformBody4_.Initialize();
+
+
+
 }
 
 void Enemy::Update()
@@ -106,7 +122,7 @@ void Enemy::Update()
 	velocity = TransformNormal(velocity, worldTransformBase_.matWorld_);
 
 	// 移動量
-	worldTransformBase_.translation_ = Add(worldTransformBase_.translation_, velocity);
+	//worldTransformBase_.translation_ = Add(worldTransformBase_.translation_, velocity);
 
 
 	UpdateFloatingGimmick();
@@ -114,9 +130,9 @@ void Enemy::Update()
 	// 行列を定数バッファに転送
 	worldTransformBody_.UpdateMatrix();
 	worldTransformBase_.UpdateMatrix();
-	worldTransformHead_.UpdateMatrix();
-	worldTransformL_arm_.UpdateMatrix();
-	worldTransformR_arm_.UpdateMatrix();
+	worldTransformBody2_.UpdateMatrix();
+	worldTransformBody3_.UpdateMatrix();
+	worldTransformBody4_.UpdateMatrix();
 
 	BaseCharacter::Update();
 
@@ -131,14 +147,22 @@ void Enemy::OnCollision()
 void Enemy::Draw(const ViewProjection& viewProjection)
 {
 
+	Vector3 move = {5.0f,5.0f,5.0f};	
 	if (isdead_ == false)
 	{
-		models_[0]->Draw(worldTransformBody_, viewProjection);
-		models_[1]->Draw(worldTransformHead_, viewProjection);
-		models_[2]->Draw(worldTransformL_arm_, viewProjection);
-		models_[3]->Draw(worldTransformR_arm_, viewProjection);
-	}
 
+		models_[0]->Draw(worldTransformBody_, viewProjection);
+		models_[1]->Draw(worldTransformBody2_, viewProjection);
+		models_[2]->Draw(worldTransformBody3_, viewProjection);
+		models_[3]->Draw(worldTransformBody4_, viewProjection);
+
+	
+	
+
+	}
+	
+	
 }
+
 
 

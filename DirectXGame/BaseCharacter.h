@@ -9,6 +9,7 @@ class BaseCharacter {
 	// 初期化
 	virtual void Initialize(const std::vector<Model*>& models);
 
+	
 	// 更新
 	virtual void Update();
 
@@ -23,6 +24,7 @@ protected:
 
 	// モデルデータ配列
 	std::vector<Model*> models_;
+	
 
 	// ワールド変換データ
 	WorldTransform worldTransform_;

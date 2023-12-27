@@ -40,27 +40,35 @@ void GameScene::Initialize() {
 	ground_->Initialize(groundModel_.get());
 
 	//敵
-	modelFighterHead_.reset(Model::CreateFromOBJ("float_Head", true));
 	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
-	modelFighterL_arm_.reset(Model::CreateFromOBJ("float_L_arm", true));
-	modelFighterR_arm_.reset(Model::CreateFromOBJ("float_R_arm", true));
+	modelFighterBody2_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterBody3_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterBody4_.reset(Model::CreateFromOBJ("float_Body", true));
+
+	
 
 	std::vector<Model*> enemyModels = {
-	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),
-	    modelFighterR_arm_.get()};
+	    modelFighterBody_.get(), modelFighterBody_.get(), modelFighterBody_.get(),
+	    modelFighterBody_.get(),   
+
+	
+	};
+
 	enemy_ = std::make_unique<Enemy>();
 
 	enemy_->Initialize(enemyModels);
+	
 
-
+	
+	
 	// フォローカメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 
 	//敵キャラに追従カメラセット
 
-	followCamera_->SetTarget(&enemy_->GetWorldTransform());
-	enemy_->SetViewProjection(&followCamera_->GetViewProjection());
+	//followCamera_->SetTarget(&enemy_->GetWorldTransform());
+	//enemy_->SetViewProjection(&followCamera_->GetViewProjection());
 
 
 	//// デバッグカメラの生成
@@ -77,12 +85,12 @@ void GameScene::Update() {
 	worldTransform_.TransferMatrix();
 	viewProjection_.UpdateMatrix();
 
-	if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == false) {
-		isDebugCameraActive_ = true;
-
-	} else if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == true) {
-		isDebugCameraActive_ = false;
-	}
+	//if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == false) {
+	//	isDebugCameraActive_ = true;
+	//
+	//} else if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == true) {
+	//	isDebugCameraActive_ = false;
+	//}
 
 
 	// カメラ処理
@@ -94,17 +102,15 @@ void GameScene::Update() {
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 
-		// viewProjection_.matView = followCamera_->GetViewProjection().matView;
-		// viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+		
+		
 
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} 
 	else {
 
-		// 追従カメラの更新
-		// debugCamera_->Update();
-
+		
 		followCamera_->Update();
 
 		viewProjection_.matView = followCamera_->GetViewProjection().matView;
@@ -130,6 +136,8 @@ void GameScene::Update() {
 
 	//敵
 	enemy_->Update();
+
+	
 }
 
 void GameScene::Draw() {

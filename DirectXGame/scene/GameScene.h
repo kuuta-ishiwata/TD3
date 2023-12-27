@@ -96,14 +96,16 @@ private: // メンバ変数
 
 	// 敵キャラ
 	std::unique_ptr<Enemy> enemy_;
+	
 
 	// 3Dモデル
 	std::unique_ptr<Model> modelFighterBody_;
-	std::unique_ptr<Model> modelFighterHead_;
-	std::unique_ptr<Model> modelFighterL_arm_;
-	std::unique_ptr<Model> modelFighterR_arm_;
+	std::unique_ptr<Model> modelFighterBody2_;
+	std::unique_ptr<Model> modelFighterBody3_;
+	std::unique_ptr<Model> modelFighterBody4_;
 
-
+	float count = 0;
+	
 
 	/// <summary>
 	/// ゲームシーン用
