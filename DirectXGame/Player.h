@@ -22,11 +22,13 @@ public:
 
 	void Attack();
 
-	
+	void Deceleration();
 
 	Vector3 GetWorldPosition3DReticle();
 
 	Vector3 GetWorldPosition();
+
+	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
 private:
 	// ワールド変換データ
@@ -45,7 +47,12 @@ private:
 	// 3Dレティクル用ワールドトランスフォーム
 	WorldTransform worldTransform3DReticle_;
 
-	
-
 	bool isSpeed = false;
+	const float startSpeed = 0.75f;
+	bool isHitBlock_ = false;
+	int hitDownTime_ = 0;
+	const int kHitDownTime_ = 0;
+	bool isAttack_ = false;
+	int attackDownTime_ = 0;
+	const int kAttackDownTime_ = 0;
 };

@@ -1,14 +1,11 @@
 #include "GameScene.h"
+#include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
-#include "AxisIndicator.h"
-
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {}
-
-
 
 void GameScene::Initialize() {
 
@@ -16,79 +13,60 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	model_.reset(Model::Create());
 	worldTransform_.Initialize();
+
 	viewProjection_.Initialize();
-
-	//// デバッグカメラの生成
-	debugCamera_ = new DebugCamera(1280, 720);
-	//// 軸方向表示を有効にする
-	AxisIndicator::GetInstance()->SetVisible(true);
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
-
-	//skydome
 	viewProjection_.farZ = 1400.0f;
 
+	// テクスチャ
+	textureHandle_ = TextureManager::Load("sample.png");
 
+	// モデル
+	model_.reset(Model::Create());
+	// スカイドーム
 	skydomeModel_.reset(Model::CreateFromOBJ("skydome", true));
-
-	skydome_ = std::make_unique<Skydome>();
-
-	skydome_->Initialize(skydomeModel_.get());
-
-
 	// グラウンド
 	groundModel_.reset(Model::CreateFromOBJ("ground", true));
-
-	// グラウンド
-	ground_ = std::make_unique<Ground>();
-
-	ground_->Initialize(groundModel_.get());
-
-	//敵
+	// 敵
 	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterBody2_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterBody3_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterBody4_.reset(Model::CreateFromOBJ("float_Body", true));
 
-	
+	// skydome
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(skydomeModel_.get());
 
-	std::vector<Model*> enemyModels = {
-	    modelFighterBody_.get(), modelFighterBody_.get(), modelFighterBody_.get(),
-	    modelFighterBody_.get(),   
+	// グラウンド
+	ground_ = std::make_unique<Ground>();
+	ground_->Initialize(groundModel_.get());
 
-	
-	};
-
-	enemy_ = std::make_unique<Enemy>();
-
-	enemy_->Initialize(enemyModels);
-	
-
-	
-	
 	// フォローカメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 
-	//敵キャラに追従カメラセット
-
-	followCamera_->SetTarget(&enemy_->GetWorldTransform());
-	enemy_->SetViewProjection(&followCamera_->GetViewProjection());
-
-
 	//// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
+
+	// 自キャラの初期化
+	player_ = std::make_unique<Player>();
+	player_->Initialize(model_.get(), textureHandle_);
+	// 自キャラに追従カメラセット
+	followCamera_->SetTarget(&player_->GetWorldTransform());
+
+	// 敵キャラの初期化
+	std::vector<Model*> enemyModels = {
+	    modelFighterBody_.get(),
+	    modelFighterBody_.get(),
+	    modelFighterBody_.get(),
+	    modelFighterBody_.get(),
+	};
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize(enemyModels);
+
 	//// 軸方向表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
-
-	textureHandle_ = TextureManager::Load("sample.png");
-
-	player_ = std::make_unique<Player>();
-	// 自キャラの初期化
-	player_->Initialize(model_.get(), textureHandle_);
-
 }
 
 void GameScene::Update() {
@@ -104,13 +82,12 @@ void GameScene::Update() {
 	worldTransform_.TransferMatrix();
 	viewProjection_.UpdateMatrix();
 
-	//if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == false) {
+	// if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == false) {
 	//	isDebugCameraActive_ = true;
 	//
-	//} else if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == true) {
+	// } else if (input_->TriggerKey(DIK_K) == isDebugCameraActive_ == true) {
 	//	isDebugCameraActive_ = false;
-	//}
-
+	// }
 
 	// カメラ処理
 	if (isDebugCameraActive_) {
@@ -121,15 +98,10 @@ void GameScene::Update() {
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 
-		
-		
-
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
-	} 
-	else {
+	} else {
 
-		
 		followCamera_->Update();
 
 		viewProjection_.matView = followCamera_->GetViewProjection().matView;
@@ -142,21 +114,14 @@ void GameScene::Update() {
 		viewProjection_.TransferMatrix();
 	}
 
-	
-
-
-
-
 	// 天球
 	skydome_->Update();
 
 	// グラウンド
 	ground_->Update();
 
-	//敵
+	// 敵
 	enemy_->Update();
-
-	
 }
 
 void GameScene::Draw() {
@@ -185,17 +150,14 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
-	player_->Draw(viewProjection_);
 
+	player_->Draw(viewProjection_);
 
 	ground_->Draw(viewProjection_);
 
 	skydome_->Draw(viewProjection_);
 
 	enemy_->Draw(viewProjection_);
-
-	
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -213,9 +175,6 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
-
 }
 
-//void GameScene::CheckAllCollisions() {}
-
-
+// void GameScene::CheckAllCollisions() {}
