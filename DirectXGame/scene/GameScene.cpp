@@ -54,15 +54,16 @@ void GameScene::Initialize() {
 	// 自キャラに追従カメラセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 
+	
 	// 敵キャラの初期化
-	std::vector<Model*> enemyModels = {
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	};
-	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize(enemyModels);
+	//std::vector<Model*> enemyModels = {
+	//    modelFighterBody_.get(),
+	//    modelFighterBody_.get(),
+	//    modelFighterBody_.get(),
+	//    modelFighterBody_.get(),
+	//};
+	//enemy_ = std::make_unique<Enemy>();
+	//enemy_->Initialize(enemyModels);
 
 	//// 軸方向表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
@@ -121,7 +122,7 @@ void GameScene::Update() {
 	ground_->Update();
 
 	// 敵
-	enemy_->Update();
+	//enemy_->Update();
 }
 
 void GameScene::Draw() {
@@ -177,4 +178,34 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-// void GameScene::CheckAllCollisions() {}
+void GameScene::EnemyPop(Vector3 pos)
+{
+
+	//敵キャラ初期化
+	std::vector<Model*> enemyModels = {
+	    modelFighterBody_.get(),
+	    modelFighterBody_.get(),
+	    modelFighterBody_.get(),
+	    modelFighterBody_.get(),
+	};
+
+
+	//敵の生成処理
+	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+	//初期化
+	newEnemy->Initialize(enemyModels);
+	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
+	enemy_.push_back(std::move(newEnemy));
+
+	for (std::unique_ptr<Enemy>& enemy : enemy_)
+	{
+		SetEnemyPopPos(pos);
+		enemy->SetViewProjection(&followCamera_->GetViewProjection());
+		enemy->SetGameScene();
+		// 更新
+		enemy->Update();
+
+	}
+
+}

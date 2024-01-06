@@ -54,12 +54,12 @@ public: // メンバ関数
 	/// <summary>
 	/// 敵発生データの書き込み
 	/// </summary>
-	void LoadEnemyPopData();
+	void EnemyPop(Vector3 pos);
 
 	/// <summary>
 	/// 敵発生コマンドの更新
 	/// </summary>
-	void UpdateEnemyPopCommands();
+	void SetEnemyPopPos(Vector3 pos);
 
 
 	//void CheakCollision();
@@ -99,7 +99,7 @@ private: // メンバ変数
 	std::unique_ptr<Model> groundModel_;
 
 	// 敵キャラ
-	std::unique_ptr<Enemy> enemy_;
+	std::list<std::unique_ptr<Enemy>> enemy_;
 	
 
 	// 3Dモデル

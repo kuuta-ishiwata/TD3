@@ -19,6 +19,8 @@ class Enemy : public BaseCharacter {
 		viewProjection_ = viewprojection;
 	}
 
+	void SetGameScene();
+
 	// 初期化
 	void Initialize(const std::vector<Model*>& models) override;
 
@@ -62,6 +64,7 @@ private:
 
 	// カメラのビュープロジェクション
 	const ViewProjection* viewprojection_ = nullptr;
+
 
 	// 3Dモデル
 	Model* enemyFighterBody_ = nullptr;
