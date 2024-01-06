@@ -86,7 +86,7 @@ void GameScene::Initialize() {
 	// 自キャラに追従カメラセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 
-<<<<<<< HEAD
+
 	
 	// 敵キャラの初期化
 	//std::vector<Model*> enemyModels = {
@@ -97,11 +97,11 @@ void GameScene::Initialize() {
 	//};
 	//enemy_ = std::make_unique<Enemy>();
 	//enemy_->Initialize(enemyModels);
-=======
+
 	// エネミー
 	LoadEnemyPopData();
 	UpdateEnemyPopCommands();
->>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
+
 
 	//// 軸方向表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
@@ -125,10 +125,10 @@ void GameScene::Update() {
 	// グラウンド
 	ground_->Update();
 
-<<<<<<< HEAD
+
 	// 敵
 	//enemy_->Update();
-=======
+
 	CheckAllCollisions();
 
 	//プレイヤー
@@ -149,7 +149,7 @@ void GameScene::Update() {
 	});
 
 	worldTransform_.UpdateMatrix();
->>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
+
 }
 
 void GameScene::Draw() {
@@ -207,16 +207,16 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-<<<<<<< HEAD
+
 void GameScene::EnemyPop(Vector3 pos)
 {
 
 	//敵キャラ初期化
-=======
 // void GameScene::CheckAllCollisions() {}
 
 // 敵発生データの読み込み
-void GameScene::LoadEnemyPopData() {
+void GameScene::LoadEnemyPopData() 
+{
 	// ファイルを開く
 	std::ifstream file;
 	file.open("./Resources/enemyPop.csv");
@@ -322,7 +322,6 @@ void GameScene::EnemyPop(Vector3 pos) {
 
 	}
 
-=======
 	// 敵の生成
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
