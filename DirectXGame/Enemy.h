@@ -7,6 +7,11 @@
 #include <vector>
 #include <list>
 
+// 自機クラスの前方宣言
+class Player;
+
+// GameSceneクラスの前方宣言
+class GameScene;
 
 class Enemy : public BaseCharacter {
 
@@ -19,19 +24,15 @@ class Enemy : public BaseCharacter {
 		viewProjection_ = viewprojection;
 	}
 
-	void SetGameScene();
 
 	// 初期化
 	void Initialize(const std::vector<Model*>& models) override;
 
-	
 	// 更新
 	void Update() override;
 
 	// 描画
 	void Draw(const ViewProjection& viewProjection) override;
-
-
 
 	// 浮遊ギミック初期化
 	void InitializeFloatingGimmick();
@@ -44,23 +45,21 @@ class Enemy : public BaseCharacter {
 	float floatingParameter_ = 0.0f;
 
 	//敵死ぬ
-	void OnCollision();
-	bool isDead() const
-	{ 
+	bool IsDead() const	{ return isDead_;}
 
-		return isdead_;
-
+	void GetViewProjection(const ViewProjection* viewProjection) {
+		viewProjection_ = viewProjection;
 	}
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
+	// 衝突を検出したら呼び出されるコールバック関数
+	void OnCollision();
 
 private:
 
 	// ワールド変換データ
 	WorldTransform worldTransformBase_;
 	WorldTransform worldTransformBody_;
-	WorldTransform worldTransformBody2_;
-	WorldTransform worldTransformBody3_;
-	WorldTransform worldTransformBody4_;
 
 	// カメラのビュープロジェクション
 	const ViewProjection* viewprojection_ = nullptr;
@@ -68,17 +67,14 @@ private:
 
 	// 3Dモデル
 	Model* enemyFighterBody_ = nullptr;
-	Model* enemyFighterBody2_ = nullptr;
-	Model* enemyFighterBody3_ = nullptr;
-	Model* enemyFighterBody4_ = nullptr; 
-
-
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 	// カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 
-	bool isdead_ = false;
+	bool isDead_ = false;
 
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 };
