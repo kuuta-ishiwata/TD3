@@ -208,8 +208,8 @@ void GameScene::Draw() {
 }
 
 
-void GameScene::EnemyPop(Vector3 pos)
-{
+//void GameScene::EnemyPop(Vector3 pos)
+//{
 
 	//敵キャラ初期化
 // void GameScene::CheckAllCollisions() {}
@@ -227,10 +227,12 @@ void GameScene::LoadEnemyPopData()
 
 	// ファイルを閉じる
 	file.close();
+
 }
 
 // 敵発生コマンドの更新
 void GameScene::UpdateEnemyPopCommands() {
+
 	// 待機処理
 	if (isWait) {
 		waitTimer--;
@@ -294,7 +296,7 @@ void GameScene::UpdateEnemyPopCommands() {
 // 敵発生関数
 void GameScene::EnemyPop(Vector3 pos) {
 	// 敵キャラの初期化
->>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
+
 	std::vector<Model*> enemyModels = {
 	    modelFighterBody_.get(),
 	    modelFighterBody_.get(),
@@ -302,7 +304,7 @@ void GameScene::EnemyPop(Vector3 pos) {
 	    modelFighterBody_.get(),
 	};
 
-<<<<<<< HEAD
+
 
 	//敵の生成処理
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
@@ -310,20 +312,20 @@ void GameScene::EnemyPop(Vector3 pos) {
 	//初期化
 	newEnemy->Initialize(enemyModels);
 	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
-	enemy_.push_back(std::move(newEnemy));
+	enemies_.push_back(std::move(newEnemy));
 
-	for (std::unique_ptr<Enemy>& enemy : enemy_)
+	for (std::unique_ptr<Enemy>& enemy : enemies_)
 	{
 		SetEnemyPopPos(pos);
 		enemy->SetViewProjection(&followCamera_->GetViewProjection());
-		enemy->SetGameScene();
+		enemy->SetGameScene(this);
 		// 更新
 		enemy->Update();
 
 	}
 
 	// 敵の生成
-	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+	//std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
 	// 初期化
 	newEnemy->Initialize(enemyModels);
@@ -339,5 +341,5 @@ void GameScene::EnemyPop(Vector3 pos) {
 		// 更新
 		enemy->Update();
 	}
->>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
+
 }

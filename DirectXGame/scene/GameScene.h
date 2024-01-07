@@ -62,7 +62,11 @@ public: // メンバ関数
 	void SetEnemyPopPos(Vector3 pos);
 	void LoadEnemyPopData();
 
-	//void CheakCollision();
+	void CheckAllCollisions();
+
+	void UpdateEnemyPopCommands();
+
+	
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -99,7 +103,7 @@ private: // メンバ変数
 	std::unique_ptr<Model> groundModel_;
 
 	// 敵キャラ
-	std::list<std::unique_ptr<Enemy>> enemy_;
+	std::list<std::unique_ptr<Enemy>> enemies_;
 	
 
 	// 3Dモデル
@@ -110,13 +114,16 @@ private: // メンバ変数
 
 	float count = 0;
 	
-
+	bool isWait = true;
 	
-
+	// 待機タイマ
+	int32_t waitTimer = 0;
 	std::unique_ptr<Player> player_;
 
 	uint32_t textureHandle_ = 0u;
 
+	// 敵発生コマンド
+	std::stringstream enemyPopCommands;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

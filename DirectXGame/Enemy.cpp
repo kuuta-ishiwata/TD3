@@ -26,16 +26,13 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 	BaseCharacter::Initialize(models);
 
 	
-	worldTransformBody2_.Initialize();
+	
 	worldTransformBody_.Initialize();
-	worldTransformBody3_.Initialize();
-	worldTransformBody4_.Initialize();
+	
 
 
 	worldTransformBody_.parent_ = &worldTransformBase_;
-	worldTransformBody2_.parent_ = &worldTransformBody_;
-	worldTransformBody3_.parent_ = &worldTransformBody_;
-	worldTransformBody4_.parent_ = &worldTransformBody_;
+	
 
 	// ワールドトランスフォームの初期化
 	worldTransformBase_.Initialize();
@@ -47,18 +44,6 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 	// 腕の座標指定
 	worldTransformBody_.translation_.x = 4.0f;
 
-	worldTransformBody2_.translation_.x = -3.0f;
-	worldTransformBody2_.translation_.z = -6.0f;
-	
-
-	worldTransformBody3_.translation_.x = 2.5f;
-	worldTransformBody3_.translation_.z = 7.5f;
-
-
-
-	worldTransformBody4_.translation_.x = -5.5f;
-	worldTransformBody4_.translation_.z = 6.5f;
-	
 
 	
 
@@ -99,9 +84,6 @@ void Enemy::BehaviorRootInitialize() {
 	InitializeFloatingGimmick();
 
 	worldTransformBody_.Initialize();
-	worldTransformBody2_.Initialize();
-	worldTransformBody3_.Initialize();
-	worldTransformBody4_.Initialize();
 
 
 
@@ -130,17 +112,14 @@ void Enemy::Update()
 	// 行列を定数バッファに転送
 	worldTransformBody_.UpdateMatrix();
 	worldTransformBase_.UpdateMatrix();
-	worldTransformBody2_.UpdateMatrix();
-	worldTransformBody3_.UpdateMatrix();
-	worldTransformBody4_.UpdateMatrix();
-
+	
 	BaseCharacter::Update();
 
 }
 
 void Enemy::OnCollision()
 { 
-	isdead_ = true;
+	isDead_ = true;
 
 }
 
@@ -148,15 +127,10 @@ void Enemy::Draw(const ViewProjection& viewProjection)
 {
 
 	Vector3 move = {5.0f,5.0f,5.0f};	
-	if (isdead_ == false)
+	if (isDead_ == false)
 	{
 
 		models_[0]->Draw(worldTransformBody_, viewProjection);
-		models_[1]->Draw(worldTransformBody2_, viewProjection);
-		models_[2]->Draw(worldTransformBody3_, viewProjection);
-		models_[3]->Draw(worldTransformBody4_, viewProjection);
-
-	
 	
 
 	}

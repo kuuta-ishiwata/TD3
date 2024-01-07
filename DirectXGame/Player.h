@@ -30,6 +30,8 @@ public:
 
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
+	void OnCollision();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
