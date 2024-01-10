@@ -9,6 +9,7 @@
 
 
 void GameScene::CheckAllCollisions() {
+
 	// 判定対象AとBの座標
 	Vector3 posA, posB;
 #pragma region 自キャラと敵キャラの当たり判定
@@ -87,6 +88,7 @@ void GameScene::Initialize() {
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 
 
+
 	
 	// 敵キャラの初期化
 	//std::vector<Model*> enemyModels = {
@@ -101,6 +103,7 @@ void GameScene::Initialize() {
 	// エネミー
 	LoadEnemyPopData();
 	UpdateEnemyPopCommands();
+
 
 
 	//// 軸方向表示を有効にする
@@ -126,9 +129,12 @@ void GameScene::Update() {
 	ground_->Update();
 
 
+
 	// 敵
 	//enemy_->Update();
 
+=======
+>>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
 	CheckAllCollisions();
 
 	//プレイヤー
@@ -149,7 +155,10 @@ void GameScene::Update() {
 	});
 
 	worldTransform_.UpdateMatrix();
+<<<<<<< HEAD
 
+=======
+>>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
 }
 
 void GameScene::Draw() {
@@ -215,8 +224,8 @@ void GameScene::Draw() {
 // void GameScene::CheckAllCollisions() {}
 
 // 敵発生データの読み込み
-void GameScene::LoadEnemyPopData() 
-{
+void GameScene::LoadEnemyPopData() {
+
 	// ファイルを開く
 	std::ifstream file;
 	file.open("./Resources/enemyPop.csv");
@@ -304,8 +313,6 @@ void GameScene::EnemyPop(Vector3 pos) {
 	    modelFighterBody_.get(),
 	};
 
-
-
 	//敵の生成処理
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
@@ -326,6 +333,10 @@ void GameScene::EnemyPop(Vector3 pos) {
 
 	// 敵の生成
 	//std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+	// 敵の生成
+	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
 
 	// 初期化
 	newEnemy->Initialize(enemyModels);

@@ -62,7 +62,7 @@ private:
 	WorldTransform worldTransformBody_;
 
 	// カメラのビュープロジェクション
-	const ViewProjection* viewprojection_ = nullptr;
+	//const ViewProjection* viewprojection_ = nullptr;
 
 
 	// 3Dモデル
