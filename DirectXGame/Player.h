@@ -30,7 +30,9 @@ public:
 
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
+
 	// 衝突を検出したら呼び出されるコールバック関数
+
 	void OnCollision();
 
 private:

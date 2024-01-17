@@ -31,13 +31,13 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 
 	worldTransformBase_.Initialize();
 	worldTransformBody_.Initialize();
-	worldTransformBody3_.Initialize();
-	worldTransformBody4_.Initialize();
+	/*worldTransformBody3_.Initialize();
+	worldTransformBody4_.Initialize();*/
 
 
-	worldTransformBody2_.parent_ = &worldTransformBody_;
+	/*worldTransformBody2_.parent_ = &worldTransformBody_;
 	worldTransformBody3_.parent_ = &worldTransformBody_;
-	worldTransformBody4_.parent_ = &worldTransformBody_;
+	worldTransformBody4_.parent_ = &worldTransformBody_;*/
 
 	// ワールドトランスフォームの初期化
 	worldTransformBase_.Initialize();
@@ -102,40 +102,26 @@ void Enemy::Update()
 	worldTransformBase_.UpdateMatrix();
 	
 	BaseCharacter::Update();
-	worldTransformBody4_.UpdateMatrix();
-
-	BaseCharacter::Update();
 
 	ImGui::Begin("window");
 	if (ImGui::TreeNode("Enemy")) {
-	    ImGui::SliderFloat3("translation", &worldTransformBody_.translation_.x, -10.0f, 10.0f);
+		ImGui::SliderFloat3("translation", &worldTransformBody_.translation_.x, -10.0f, 10.0f);
 		ImGui::TreePop();
-void Enemy::OnCollision()
-{ 
-	isDead_ = true;
+	}
+	ImGui::End();
 #endif // _DEBUG
-void Enemy::OnCollision()
-{ 
-	isdead_ = true;
-
-	// 行列を定数バッファに転送
-	BaseCharacter::Update();
-	worldTransformBody_.UpdateMatrix();
-	worldTransformBase_.UpdateMatrix();
 }
-	if (!isDead_){
 
+    void Enemy::Draw(const ViewProjection& viewProjection) {
 	Vector3 move = {5.0f,5.0f,5.0f};	
+
 	if (isDead_ == false)
 	{
 
-	if (isdead_ == false)
-	{
-
 		models_[0]->Draw(worldTransformBody_, viewProjection);
-		models_[1]->Draw(worldTransformBody2_, viewProjection);
+		/*models_[1]->Draw(worldTransformBody2_, viewProjection);
 		models_[2]->Draw(worldTransformBody3_, viewProjection);
-		models_[3]->Draw(worldTransformBody4_, viewProjection);
+		models_[3]->Draw(worldTransformBody4_, viewProjection);*/
 
 	
 	

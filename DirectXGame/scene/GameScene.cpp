@@ -5,34 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <variant>
 
-void GameScene::CheckAllCollisions() {
-	// 判定対象AとBの座標
-	Vector3 posA, posB;
-#pragma region 自キャラと敵キャラの当たり判定
-	// 自キャラの座標
-	posA = player_->GetWorldPosition();
-
-	// 敵キャラの座標
-	for (std::unique_ptr<Enemy>& enemy : enemies_) {
-		posB = enemy->GetWorldPosition();
-
-		// 座標AとBの距離を求める
-		// 交差判定
-		if (posA.z + 1.0f >= posB.z && posA.z <= posB.z + 1.0f) {
-			if (posA.y + 1.0f >= posB.y && posA.y <= posB.y + 1.0f) {
-				if (posA.x + 1.0f >= posB.x && posA.x <= posB.x + 1.0f) {
-					// 自弾の衝突時コールバックを呼び出す
-					player_->OnCollision();
-					// 敵キャラの衝突時コールバックを呼び出す
-					enemy->OnCollision();
-				}
-			}
-		}
-	}
-#pragma endregion
-}
 
 GameScene::GameScene() {}
 
@@ -114,10 +87,6 @@ void GameScene::Initialize() {
 	player_->Initialize(model_.get(), textureHandle_);
 	// 自キャラに追従カメラセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
-
-	// エネミー
-	LoadEnemyPopData();
-	UpdateEnemyPopCommands();
 
 	// エネミー
 	LoadEnemyPopData();

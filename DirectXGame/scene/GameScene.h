@@ -50,18 +50,11 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	/// <summary>	
-	// 敵発生データの読み込み
-	/// </summary>
-	void EnemyPop(Vector3 pos);
-
 	/// <summary>
 	// 敵発生コマンドの更新
 	/// </summary>
 	
 	void LoadEnemyPopData();
-
-	void CheckAllCollisions();
 
 	void UpdateEnemyPopCommands();
 
