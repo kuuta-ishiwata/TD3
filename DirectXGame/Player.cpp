@@ -4,6 +4,13 @@
 
 Player::~Player() {}
 
+
+
+void Player::OnCollision()
+{
+	isHitBlock_ = true;
+}
+
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// NULLポインタチェック
 	assert(model);
@@ -51,6 +58,13 @@ void Player::Update(ViewProjection& viewProjection) {
 	/*if (input_->IsPressMouse(WM_LBUTTONDOWN != 0)) {
 	    worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
 	}*/
+
+
+	if (worldTransform_.translation_.z >= 400)
+	{
+		worldTransform_.translation_.z = 0;
+
+	}
 
 #ifdef _DEBUG
 
@@ -105,13 +119,13 @@ void Player::Deceleration() {
 	}
 }
 
-Vector3 Player::GetWorldPosition3DReticle() {
+Vector3 Player::GetWorldPosition() {
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldPos.x = worldTransform3DReticle_.matWorld_.m[3][0];
-	worldPos.y = worldTransform3DReticle_.matWorld_.m[3][1];
-	worldPos.z = worldTransform3DReticle_.matWorld_.m[3][2];
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
 
 	return worldPos;
 }

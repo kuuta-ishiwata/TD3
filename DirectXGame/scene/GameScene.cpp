@@ -7,6 +7,10 @@
 #include <map>
 #include <variant>
 
+GameScene::GameScene() {}
+
+GameScene::~GameScene() {}
+
 
 void GameScene::CheckAllCollisions() {
 
@@ -36,9 +40,6 @@ void GameScene::CheckAllCollisions() {
 #pragma endregion
 }
 
-GameScene::GameScene() {}
-
-GameScene::~GameScene() {}
 
 void GameScene::Initialize() {
 
@@ -133,8 +134,7 @@ void GameScene::Update() {
 	// 敵
 	//enemy_->Update();
 
-=======
->>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
+
 	CheckAllCollisions();
 
 	//プレイヤー
@@ -155,10 +155,7 @@ void GameScene::Update() {
 	});
 
 	worldTransform_.UpdateMatrix();
-<<<<<<< HEAD
 
-=======
->>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
 }
 
 void GameScene::Draw() {
@@ -335,22 +332,8 @@ void GameScene::EnemyPop(Vector3 pos) {
 	//std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
 	// 敵の生成
-	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+	//std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
 
-	// 初期化
-	newEnemy->Initialize(enemyModels);
-	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
-	enemies_.push_back(std::move(newEnemy));
-
-	// イテレータ
-	for (std::unique_ptr<Enemy>& enemy : enemies_) {
-		// 各セッターに値を代入
-		SetEnemyPopPos(pos);
-		enemy->GetViewProjection(&followCamera_->GetViewProjection());
-		enemy->SetGameScene(this);
-		// 更新
-		enemy->Update();
-	}
 
 }

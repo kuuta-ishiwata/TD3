@@ -58,27 +58,21 @@ public: // メンバ関数
 	/// <summary>
 	// 敵発生コマンドの更新
 	/// </summary>
-	void SetEnemyPopPos(Vector3 pos);
+	
 	void LoadEnemyPopData();
 
 	void CheckAllCollisions();
 
 	void UpdateEnemyPopCommands();
 
-<<<<<<< HEAD
-	
-=======
 	/// <summary>
 	// 敵発生関数
 	/// </summary>
-	void EnemyPop(Vector3 pos);
+	//void EnemyPop(Vector3 pos);
 
 	Vector3 GetEnemyPopPos() { return enemyPopPos; }
 	void SetEnemyPopPos(Vector3 pos) { enemyPopPos = pos; }
 
-	// 衝突判定
-	void CheckAllCollisions();
->>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -106,11 +100,11 @@ private: // メンバ変数
 	std::unique_ptr<Ground> ground_;
 	std::unique_ptr<Model> groundModel_;
 
-<<<<<<< HEAD
+
 	// 敵キャラ
 	std::list<std::unique_ptr<Enemy>> enemies_;
 	
-=======
+
 	//プレイヤー
 	std::unique_ptr<Player> player_;
 
@@ -125,7 +119,7 @@ private: // メンバ変数
 	bool isWait = false;
 	// 待機タイマー
 	uint32_t waitTimer = 0;
->>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
+
 
 	// 3Dモデル
 	std::unique_ptr<Model> modelFighterBody_;
@@ -134,17 +128,14 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelFighterBody4_;
 
 	float count = 0;
-<<<<<<< HEAD
-	
-	bool isWait = true;
-	
-	// 待機タイマ
-	int32_t waitTimer = 0;
-	std::unique_ptr<Player> player_;
 
-	uint32_t textureHandle_ = 0u;
-=======
->>>>>>> f9e27e6e2a7ef89f2768d53c13c195bdaafdb9b3
+	
+	
+	
+	
+	//std::unique_ptr<Player> player_;
+
+	
 
 	/// <summary>
 	/// ゲームシーン用
