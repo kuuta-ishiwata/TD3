@@ -18,6 +18,10 @@
 #include <sstream>
 #include "Player.h"
 #include <memory>
+#include "Load.h"
+#include "Tree.h"
+
+
 
 /// <summary>
 /// ゲームシーン
@@ -85,6 +89,8 @@ private: // メンバ変数
 
 	uint32_t textureHandle_ = 0u;
 
+	uint32_t treetextureHandle = 0u;
+
 	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
 	bool isDebugCameraActive_ = false;
@@ -101,12 +107,23 @@ private: // メンバ変数
 	std::unique_ptr<Model> groundModel_;
 
 
+
 	// 敵キャラ
 	std::list<std::unique_ptr<Enemy>> enemies_;
 	
 
 	//プレイヤー
 	std::unique_ptr<Player> player_;
+
+	//道
+	std::unique_ptr<Load> load_;
+	std::unique_ptr<Model> loadModel_;
+
+		// 木
+	std::unique_ptr<Tree> tree_;
+	std::unique_ptr<Model> treeModel_;
+
+
 
 	// エネミー
 	//std::list<std::unique_ptr<Enemy>> enemies_;

@@ -61,7 +61,7 @@ void Player::Update(ViewProjection& viewProjection) {
 	}
 
 	// 座標を移動させる(1フレーム分の移動量を足し込む)
-	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+	//worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 
 #ifdef _DEBUG
 

@@ -54,6 +54,7 @@ void GameScene::Initialize() {
 
 	// テクスチャ
 	textureHandle_ = TextureManager::Load("inoshishi/tex.png");
+	//
 
 	// モデル
 	model_.reset(Model::CreateFromOBJ("inoshishi",true));
@@ -62,6 +63,15 @@ void GameScene::Initialize() {
 	skydomeModel_.reset(Model::CreateFromOBJ("skydome", true));
 	// グラウンド
 	groundModel_.reset(Model::CreateFromOBJ("ground", true));
+
+	//道
+	loadModel_.reset(Model::CreateFromOBJ("straightroad", true));
+
+
+	//木
+	treeModel_.reset(Model::CreateFromOBJ("tree", true));
+
+
 	// 敵
 	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterBody2_.reset(Model::CreateFromOBJ("float_Body", true));
@@ -75,6 +85,15 @@ void GameScene::Initialize() {
 	// グラウンド
 	ground_ = std::make_unique<Ground>();
 	ground_->Initialize(groundModel_.get());
+
+	//道
+	load_ = std::make_unique<Load>();
+	load_->Initialize(loadModel_.get());
+
+	//木
+	tree_ = std::make_unique<Tree>();
+	tree_->Initialize(treeModel_.get());
+
 
 	// フォローカメラ
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -118,6 +137,10 @@ void GameScene::Update() {
 	ground_->Update();
 
 	CheckAllCollisions();
+
+	load_->Update();
+
+	tree_->Update();
 
 	//プレイヤー
 	player_->Update(viewProjection_);
@@ -170,6 +193,11 @@ void GameScene::Draw() {
 	skydome_->Draw(viewProjection_);
 
 	ground_->Draw(viewProjection_);
+
+	load_->Draw(viewProjection_);
+
+	tree_->Draw(viewProjection_);
+
 
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
 		enemy->Draw(viewProjection_);
