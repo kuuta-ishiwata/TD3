@@ -53,10 +53,11 @@ void GameScene::Initialize() {
 	viewProjection_.farZ = 1400.0f;
 
 	// テクスチャ
-	textureHandle_ = TextureManager::Load("sample.png");
+	textureHandle_ = TextureManager::Load("inoshishi/tex.png");
 
 	// モデル
-	model_.reset(Model::Create());
+	model_.reset(Model::CreateFromOBJ("inoshishi",true));
+
 	// スカイドーム
 	skydomeModel_.reset(Model::CreateFromOBJ("skydome", true));
 	// グラウンド

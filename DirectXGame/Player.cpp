@@ -7,6 +7,7 @@ Player::~Player() {}
 void Player::OnCollision() { isHitBlock_ = true; }
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
+	
 	// NULLポインタチェック
 	assert(model);
 
@@ -15,7 +16,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	textureHandle_ = textureHandle;
 
 	worldTransform_.Initialize();
-
+	
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
 
@@ -67,7 +68,9 @@ void Player::Update(ViewProjection& viewProjection) {
 	ImGui::Begin("window");
 	if (ImGui::TreeNode("Player")) {
 		ImGui::SliderFloat3("translation", &worldTransform_.translation_.x, -10, 10);
+		ImGui::SliderFloat3("rotation", &worldTransform_.rotation_.x, -10, 10);
 		ImGui::SliderFloat3("speed", &velocity_.x, -10, 10);
+
 		ImGui::TreePop();
 	}
 	ImGui::End();
@@ -77,6 +80,7 @@ void Player::Update(ViewProjection& viewProjection) {
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
+
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
 
