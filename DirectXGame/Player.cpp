@@ -4,12 +4,7 @@
 
 Player::~Player() {}
 
-
-
-void Player::OnCollision()
-{
-	isHitBlock_ = true;
-}
+void Player::OnCollision() { isHitBlock_ = true; }
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// NULLポインタチェック
@@ -24,6 +19,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
 
+	worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
 	velocity_ = {0.0f, 0.0f, startSpeed};
 	isHitBlock_ = false;
 	isAttack_ = false;
@@ -34,15 +30,12 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 void Player::Update(ViewProjection& viewProjection) {
 	viewProjection;
 
-	// 座標を移動させる(1フレーム分の移動量を足し込む)
-	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
-
 	if (input_->IsTriggerMouse(WM_RBUTTONDOWN == 0)) {
 		isAttack_ = true;
 	}
-	else if (input_->IsTriggerMouse(WM_LBUTTONDOWN != 0)) {
+	/*else if (input_->IsTriggerMouse(WM_LBUTTONDOWN != 0)) {
 		isHitBlock_ = true;
-	}
+	}*/
 
 	// 攻撃
 	if (isAttack_) {
@@ -66,6 +59,9 @@ void Player::Update(ViewProjection& viewProjection) {
 
 	}
 
+	// 座標を移動させる(1フレーム分の移動量を足し込む)
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+
 #ifdef _DEBUG
 
 	ImGui::Begin("window");
@@ -86,13 +82,11 @@ void Player::Draw(ViewProjection& viewProjection) {
 
 void Player::Attack() {
 	// 加速度
-	float acceleration = 2.0f;
-
-	// 加速度をnormalize
-	acceleration = sqrtf(acceleration * acceleration);
+	const float acceleration = 2.0f;
+	Vector3 velocity = {0.0f, 0.0f, startSpeed};
 
 	// 速度に加速度をかけあわせる
-	velocity_ = Multiply(acceleration, velocity_);
+	velocity_ = Multiply(acceleration, velocity);
 
 	// 攻撃終了
 	if (++attackDownTime_ >= 5) {
@@ -104,15 +98,13 @@ void Player::Attack() {
 
 void Player::Deceleration() {
 	// 加速度
-	float acceleration = 0.25f;
-
-	// 加速度をnormalize
-	acceleration = sqrtf(acceleration * acceleration);
+	const float acceleration = 0.25f;
+	Vector3 velocity = {0.0f, 0.0f, startSpeed};
 
 	// 速度に加速度をかけあわせる
-	velocity_ = Multiply(acceleration, velocity_);
+	velocity_ = Multiply(acceleration, velocity);
 
-	if (++hitDownTime_ >= 5) {
+	if (++hitDownTime_ >= 20) {
 		isHitBlock_ = false;
 		velocity_.z = startSpeed;
 		hitDownTime_ = kHitDownTime_;

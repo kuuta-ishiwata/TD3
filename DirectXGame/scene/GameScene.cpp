@@ -7,6 +7,33 @@
 #include <map>
 #include <variant>
 
+void GameScene::CheckAllCollisions() {
+	// 判定対象AとBの座標
+	Vector3 posA, posB;
+#pragma region 自キャラと敵キャラの当たり判定
+	// 自キャラの座標
+	posA = player_->GetWorldPosition();
+
+	// 敵キャラの座標
+	for (std::unique_ptr<Enemy>& enemy : enemies_) {
+		posB = enemy->GetWorldPosition();
+
+		// 座標AとBの距離を求める
+		// 交差判定
+		if (posA.z + 1.0f >= posB.z && posA.z <= posB.z + 1.0f) {
+			if (posA.y + 1.0f >= posB.y && posA.y <= posB.y + 1.0f) {
+				if (posA.x + 1.0f >= posB.x && posA.x <= posB.x + 1.0f) {
+					// 自弾の衝突時コールバックを呼び出す
+					player_->OnCollision();
+					// 敵キャラの衝突時コールバックを呼び出す
+					enemy->OnCollision();
+				}
+			}
+		}
+	}
+#pragma endregion
+}
+
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {}
@@ -88,18 +115,9 @@ void GameScene::Initialize() {
 	// 自キャラに追従カメラセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 
-
-
-	
-	// 敵キャラの初期化
-	//std::vector<Model*> enemyModels = {
-	//    modelFighterBody_.get(),
-	//    modelFighterBody_.get(),
-	//    modelFighterBody_.get(),
-	//    modelFighterBody_.get(),
-	//};
-	//enemy_ = std::make_unique<Enemy>();
-	//enemy_->Initialize(enemyModels);
+	// エネミー
+	LoadEnemyPopData();
+	UpdateEnemyPopCommands();
 
 	// エネミー
 	LoadEnemyPopData();
@@ -128,12 +146,6 @@ void GameScene::Update() {
 
 	// グラウンド
 	ground_->Update();
-
-
-
-	// 敵
-	//enemy_->Update();
-
 
 	CheckAllCollisions();
 
@@ -222,7 +234,6 @@ void GameScene::Draw() {
 
 // 敵発生データの読み込み
 void GameScene::LoadEnemyPopData() {
-
 	// ファイルを開く
 	std::ifstream file;
 	file.open("./Resources/enemyPop.csv");
@@ -233,12 +244,10 @@ void GameScene::LoadEnemyPopData() {
 
 	// ファイルを閉じる
 	file.close();
-
 }
 
 // 敵発生コマンドの更新
 void GameScene::UpdateEnemyPopCommands() {
-
 	// 待機処理
 	if (isWait) {
 		waitTimer--;
@@ -302,7 +311,6 @@ void GameScene::UpdateEnemyPopCommands() {
 // 敵発生関数
 void GameScene::EnemyPop(Vector3 pos) {
 	// 敵キャラの初期化
-
 	std::vector<Model*> enemyModels = {
 	    modelFighterBody_.get(),
 	    modelFighterBody_.get(),
@@ -310,30 +318,21 @@ void GameScene::EnemyPop(Vector3 pos) {
 	    modelFighterBody_.get(),
 	};
 
-	//敵の生成処理
+	// 敵の生成
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
-	//初期化
+	// 初期化
 	newEnemy->Initialize(enemyModels);
 	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
 	enemies_.push_back(std::move(newEnemy));
 
-	for (std::unique_ptr<Enemy>& enemy : enemies_)
-	{
+	// イテレータ
+	for (std::unique_ptr<Enemy>& enemy : enemies_) {
+		// 各セッターに値を代入
 		SetEnemyPopPos(pos);
-		enemy->SetViewProjection(&followCamera_->GetViewProjection());
+		enemy->GetViewProjection(&followCamera_->GetViewProjection());
 		enemy->SetGameScene(this);
 		// 更新
 		enemy->Update();
-
 	}
-
-	// 敵の生成
-	//std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-
-	// 敵の生成
-	//std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-
-
-
 }

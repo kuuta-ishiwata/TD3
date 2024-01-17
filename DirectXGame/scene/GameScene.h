@@ -66,13 +66,20 @@ public: // メンバ関数
 	void UpdateEnemyPopCommands();
 
 	/// <summary>
-	// 敵発生関数
+	/// 敵発生コマンドの更新
 	/// </summary>
 	//void EnemyPop(Vector3 pos);
+
+	/// <summary>
+	// 敵発生関数
+	/// </summary>
+	void EnemyPop(Vector3 pos);
 
 	Vector3 GetEnemyPopPos() { return enemyPopPos; }
 	void SetEnemyPopPos(Vector3 pos) { enemyPopPos = pos; }
 
+	// 衝突判定
+	void CheckAllCollisions();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -128,14 +135,6 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelFighterBody4_;
 
 	float count = 0;
-
-	
-	
-	
-	
-	//std::unique_ptr<Player> player_;
-
-	
 
 	/// <summary>
 	/// ゲームシーン用

@@ -5,6 +5,10 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "Player.h"
+#include "GameScene.h"
+
+void Enemy::OnCollision() { isDead_ = true; }
 
 Vector3 Enemy::GetWorldPosition() {
 
@@ -15,7 +19,6 @@ Vector3 Enemy::GetWorldPosition() {
 	worldPos.z = worldTransformBase_.matWorld_.m[3][2];
 
 	return worldPos;
-
 }
 
 void Enemy::Initialize(const std::vector<Model*>& models) {
@@ -24,32 +27,29 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 
 	// 基底クラスの初期化
 	BaseCharacter::Initialize(models);
+	// ワールドトランスフォームの初期化
 
-	
-	
+	worldTransformBase_.Initialize();
 	worldTransformBody_.Initialize();
-	
+	worldTransformBody3_.Initialize();
+	worldTransformBody4_.Initialize();
 
 
-	worldTransformBody_.parent_ = &worldTransformBase_;
-	
+	worldTransformBody2_.parent_ = &worldTransformBody_;
+	worldTransformBody3_.parent_ = &worldTransformBody_;
+	worldTransformBody4_.parent_ = &worldTransformBody_;
 
 	// ワールドトランスフォームの初期化
 	worldTransformBase_.Initialize();
 
+
 	// X,Y,Z方向のスケーリングを設定
 	worldTransformBase_.scale_ = {1.0f, 1.0f, 1.0f};
-	worldTransformBase_.translation_ = {0.0f, 2.0f, 10.0f};
-
-	// 腕の座標指定
-	worldTransformBody_.translation_.x = 4.0f;
-
+	worldTransformBody_.translation_.x = 0.0f;
 
 	
 
 }
-
-
 
 void Enemy::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
 
@@ -71,19 +71,11 @@ void Enemy::UpdateFloatingGimmick() {
 
 	// 浮遊を座標に反映
 	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude;
-
-	// 腕の動き
-	//worldTransformBody3_.rotation_.x = std::sin(floatingParameter_) * 0.75f;
-	//worldTransformBody4_.rotation_.x = std::sin(floatingParameter_) * -0.75f;
-
 }
 
 void Enemy::BehaviorRootInitialize() {
 	
 	// 浮遊初期化
-	InitializeFloatingGimmick();
-
-	worldTransformBody_.Initialize();
 
 
 
@@ -91,7 +83,6 @@ void Enemy::BehaviorRootInitialize() {
 
 void Enemy::Update()
 {
-
 	// enemy速さ
 	const float kSpeed = 0.1f;
 
@@ -105,38 +96,49 @@ void Enemy::Update()
 
 	// 移動量
 	//worldTransformBase_.translation_ = Add(worldTransformBase_.translation_, velocity);
-
-
-	UpdateFloatingGimmick();
-
+#ifdef _DEBUG
 	// 行列を定数バッファに転送
 	worldTransformBody_.UpdateMatrix();
 	worldTransformBase_.UpdateMatrix();
 	
 	BaseCharacter::Update();
+	worldTransformBody4_.UpdateMatrix();
 
-}
+	BaseCharacter::Update();
 
+	ImGui::Begin("window");
+	if (ImGui::TreeNode("Enemy")) {
+	    ImGui::SliderFloat3("translation", &worldTransformBody_.translation_.x, -10.0f, 10.0f);
+		ImGui::TreePop();
 void Enemy::OnCollision()
 { 
 	isDead_ = true;
+#endif // _DEBUG
+void Enemy::OnCollision()
+{ 
+	isdead_ = true;
 
+	// 行列を定数バッファに転送
+	BaseCharacter::Update();
+	worldTransformBody_.UpdateMatrix();
+	worldTransformBase_.UpdateMatrix();
 }
-
-void Enemy::Draw(const ViewProjection& viewProjection)
-{
+	if (!isDead_){
 
 	Vector3 move = {5.0f,5.0f,5.0f};	
 	if (isDead_ == false)
 	{
 
+	if (isdead_ == false)
+	{
+
 		models_[0]->Draw(worldTransformBody_, viewProjection);
+		models_[1]->Draw(worldTransformBody2_, viewProjection);
+		models_[2]->Draw(worldTransformBody3_, viewProjection);
+		models_[3]->Draw(worldTransformBody4_, viewProjection);
+
+	
 	
 
 	}
-	
-	
 }
-
-
-
