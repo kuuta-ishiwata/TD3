@@ -7,7 +7,7 @@
 class Load {
 
 public:
-	void Initialize(Model* model);
+	void Initialize(Model* model, uint32_t textureHandle);
 
 	void Update();
 
@@ -22,6 +22,7 @@ private:
 	// モデル
 	Model* LoadModel_ = nullptr;
 
+	uint32_t textureHandle_ = 0u;
 
 
 };

@@ -73,7 +73,8 @@ void Enemy::UpdateFloatingGimmick() {
 	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude;
 }
 
-void Enemy::BehaviorRootInitialize() {
+void Enemy::BehaviorRootInitialize() 
+{
 	
 	// 浮遊初期化
 

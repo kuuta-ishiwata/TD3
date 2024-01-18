@@ -89,8 +89,9 @@ private: // メンバ変数
 
 	uint32_t textureHandle_ = 0u;
 
-	uint32_t treetextureHandle = 0u;
+	uint32_t treetextureHandle_ = 0u;
 
+	uint32_t loadtextureHandle_ = 0u;
 	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
 	bool isDebugCameraActive_ = false;

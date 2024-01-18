@@ -54,7 +54,10 @@ void GameScene::Initialize() {
 
 	// テクスチャ
 	textureHandle_ = TextureManager::Load("inoshishi/tex.png");
-	//
+	//木
+	treetextureHandle_ = TextureManager::Load("tree/treecolor.png");
+	//道
+	loadtextureHandle_ = TextureManager::Load("straightroad/road.png");
 
 	// モデル
 	model_.reset(Model::CreateFromOBJ("inoshishi",true));
@@ -88,11 +91,11 @@ void GameScene::Initialize() {
 
 	//道
 	load_ = std::make_unique<Load>();
-	load_->Initialize(loadModel_.get());
+	load_->Initialize(loadModel_.get(),loadtextureHandle_);
 
 	//木
 	tree_ = std::make_unique<Tree>();
-	tree_->Initialize(treeModel_.get());
+	tree_->Initialize(treeModel_.get(),treetextureHandle_);
 
 
 	// フォローカメラ
@@ -195,7 +198,7 @@ void GameScene::Draw() {
 	ground_->Draw(viewProjection_);
 
 	load_->Draw(viewProjection_);
-
+	
 	tree_->Draw(viewProjection_);
 
 
@@ -314,6 +317,7 @@ void GameScene::EnemyPop(Vector3 pos) {
 	    modelFighterBody_.get(),
 	    modelFighterBody_.get(),
 	    modelFighterBody_.get(),
+
 	};
 
 	// 敵の生成
