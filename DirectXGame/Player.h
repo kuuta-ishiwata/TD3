@@ -8,6 +8,10 @@
 #include"MATHEX.h"
 #include"ViewProjection.h"
 #include"TextureManager.h"
+#include "GameInput.h"
+
+
+
 class Player {
 public:
 	~Player();
@@ -60,4 +64,8 @@ private:
 	bool isAttack_ = false;
 	int attackDownTime_ = 0;
 	const int kAttackDownTime_ = 0;
+
+
+
+
 };

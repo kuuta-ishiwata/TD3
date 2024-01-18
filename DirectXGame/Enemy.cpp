@@ -97,20 +97,26 @@ void Enemy::Update()
 
 	// 移動量
 	//worldTransformBase_.translation_ = Add(worldTransformBase_.translation_, velocity);
-#ifdef _DEBUG
 	// 行列を定数バッファに転送
 	worldTransformBody_.UpdateMatrix();
 	worldTransformBase_.UpdateMatrix();
-	
 	BaseCharacter::Update();
 
+	/*
+#ifdef _DEBUG
+	
+	
+	
 	ImGui::Begin("window");
 	if (ImGui::TreeNode("Enemy")) {
 		ImGui::SliderFloat3("translation", &worldTransformBody_.translation_.x, -10.0f, 10.0f);
 		ImGui::TreePop();
 	}
 	ImGui::End();
+	
 #endif // _DEBUG
+*/
+	
 }
 
     void Enemy::Draw(const ViewProjection& viewProjection) {
@@ -119,13 +125,11 @@ void Enemy::Update()
 	if (isDead_ == false)
 	{
 
-		models_[0]->Draw(worldTransformBody_, viewProjection);
+		models_[0]->Draw(worldTransformBase_, viewProjection);
+
 		/*models_[1]->Draw(worldTransformBody2_, viewProjection);
 		models_[2]->Draw(worldTransformBody3_, viewProjection);
 		models_[3]->Draw(worldTransformBody4_, viewProjection);*/
-
-	
-	
 
 	}
 }

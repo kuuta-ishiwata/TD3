@@ -4,10 +4,26 @@
 
 Player::~Player() {}
 
-void Player::OnCollision() { isHitBlock_ = true; }
+void Player::OnCollision() 
+{ 
+	if (!isAttack_)
+	{
+
+		isHitBlock_ = true;
+	}
+	else {
+
+		if (!GameInput::GetInstance()->Input())
+		{
+			isHitBlock_ = true;
+
+	    }
+	}
+
+}
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
-	
+
 	// NULLポインタチェック
 	assert(model);
 
@@ -16,7 +32,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	textureHandle_ = textureHandle;
 
 	worldTransform_.Initialize();
-	
+
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
 
@@ -30,12 +46,13 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 void Player::Update(ViewProjection& viewProjection) {
 	viewProjection;
+	
 
 	if (input_->IsTriggerMouse(WM_RBUTTONDOWN == 0)) {
 		isAttack_ = true;
 	}
 	/*else if (input_->IsTriggerMouse(WM_LBUTTONDOWN != 0)) {
-		isHitBlock_ = true;
+	    isHitBlock_ = true;
 	}*/
 
 	// 攻撃
@@ -53,15 +70,12 @@ void Player::Update(ViewProjection& viewProjection) {
 	    worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
 	}*/
 
-
-	if (worldTransform_.translation_.z >= 400)
-	{
+	if (worldTransform_.translation_.z >= 400) {
 		worldTransform_.translation_.z = 0;
-
 	}
 
 	// 座標を移動させる(1フレーム分の移動量を足し込む)
-	//worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+	 worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 
 #ifdef _DEBUG
 
@@ -73,6 +87,10 @@ void Player::Update(ViewProjection& viewProjection) {
 
 		ImGui::TreePop();
 	}
+	ImGui::End();
+
+	ImGui::Begin("A");
+	ImGui::Text("%fl", sizeof(input_->GetAllKey()));
 	ImGui::End();
 
 #endif // _DEBUG
@@ -125,7 +143,6 @@ Vector3 Player::GetWorldPosition() {
 
 	return worldPos;
 }
-
 
 // void Player::ScreenWorldTransformation(ViewProjection& viewProjection) {
 //	POINT mousePosition;

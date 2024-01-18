@@ -10,7 +10,7 @@ class Tree {
 
 	void Update();
 
-	void Draw(ViewProjection& viewProjection);
+	void Draw(ViewProjection& viewProjection, Vector3 pos);
 
 private:
 	// ワールド変換データ
@@ -22,6 +22,7 @@ private:
 	Model* TreeModel_ = nullptr;
 
 	uint32_t textureHandle_ = 0u;
+
 
 
 

@@ -14,6 +14,7 @@ void FollowCamera::Initialize() {
 	viewProjection_.rotation_.x = 0.25f;
 
 	viewProjection_.Initialize();
+
 }
 
 

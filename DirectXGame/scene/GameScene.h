@@ -20,7 +20,7 @@
 #include <memory>
 #include "Load.h"
 #include "Tree.h"
-
+#include "GameInput.h"
 
 
 /// <summary>
@@ -121,10 +121,14 @@ private: // メンバ変数
 	std::unique_ptr<Model> loadModel_;
 
 		// 木
-	std::unique_ptr<Tree> tree_;
+	std::unique_ptr<Tree> tree_[80];
 	std::unique_ptr<Model> treeModel_;
 
 
+	//コマンド
+	GameInput* gameInput_ = nullptr;
+
+	int enemyCount = 0;
 
 	// エネミー
 	//std::list<std::unique_ptr<Enemy>> enemies_;

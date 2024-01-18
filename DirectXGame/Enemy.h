@@ -25,6 +25,7 @@ class Enemy : public BaseCharacter {
 	}
 
 
+
 	// 初期化
 	void Initialize(const std::vector<Model*>& models) override;
 
@@ -54,6 +55,8 @@ class Enemy : public BaseCharacter {
 
 	// 衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
+
+	void SetPos(Vector3 pos) { worldTransformBase_.translation_ = pos; }
 
 private:
 

@@ -29,10 +29,13 @@ void GameScene::CheckAllCollisions() {
 		if (posA.z + 1.0f >= posB.z && posA.z <= posB.z + 1.0f) {
 			if (posA.y + 1.0f >= posB.y && posA.y <= posB.y + 1.0f) {
 				if (posA.x + 1.0f >= posB.x && posA.x <= posB.x + 1.0f) {
+
+					gameInput_->Upadte();
 					// 自弾の衝突時コールバックを呼び出す
 					player_->OnCollision();
 					// 敵キャラの衝突時コールバックを呼び出す
 					enemy->OnCollision();
+					enemyCount--;
 				}
 			}
 		}
@@ -94,9 +97,14 @@ void GameScene::Initialize() {
 	load_->Initialize(loadModel_.get(),loadtextureHandle_);
 
 	//木
-	tree_ = std::make_unique<Tree>();
-	tree_->Initialize(treeModel_.get(),treetextureHandle_);
+	for (int i = 0; i < 80; i++)
+	{
+		tree_[i] = std::make_unique<Tree>();
+		tree_[i]->Initialize(treeModel_.get(), treetextureHandle_);
+	}
 
+	//コマンド
+	gameInput_->GetInstance();
 
 	// フォローカメラ
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -112,9 +120,8 @@ void GameScene::Initialize() {
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 
 	// エネミー
-	LoadEnemyPopData();
 	UpdateEnemyPopCommands();
-
+	enemyCount = 0;
 
 
 	//// 軸方向表示を有効にする
@@ -133,6 +140,9 @@ void GameScene::Update() {
 
 	viewProjection_.TransferMatrix();
 
+	// コマンド
+	
+
 	// 天球
 	skydome_->Update();
 
@@ -143,14 +153,19 @@ void GameScene::Update() {
 
 	load_->Update();
 
-	tree_->Update();
+	for (int i = 0; i < 80; i++) 
+	{
+		tree_[i]->Update();
+	}
+	
 
 	//プレイヤー
 	player_->Update(viewProjection_);
 
 	// 敵の発生と更新
 	UpdateEnemyPopCommands();
-	for (std::unique_ptr<Enemy>& enemy : enemies_) {
+	for (std::unique_ptr<Enemy>& enemy : enemies_) 
+	{
 		enemy->Update();
 	}
 	// デスフラグの立った敵を削除
@@ -163,6 +178,17 @@ void GameScene::Update() {
 	});
 
 	worldTransform_.UpdateMatrix();
+
+	#ifdef _DEBUG
+
+	    ImGui::Begin("window");
+	if (ImGui::TreeNode("Enemy")) {
+		ImGui::Text("count %d", enemyCount);
+		ImGui::TreePop();
+	}
+	ImGui::End();
+
+#endif // _DEBUG
 
 }
 
@@ -199,8 +225,19 @@ void GameScene::Draw() {
 
 	load_->Draw(viewProjection_);
 	
-	tree_->Draw(viewProjection_);
+	for (int i = 0; i < 40; ++i)
+	{
+		
+			tree_[i]->Draw(viewProjection_, Vector3{5.4f, 0, float(i * 10)});
+		
+			
+	}
 
+	for (int i = 0; i < 40; ++i) {
+
+		tree_[i +40]->Draw(viewProjection_, Vector3{-5.4f, 0, float(i  * 10)});
+
+	}
 
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
 		enemy->Draw(viewProjection_);
@@ -245,68 +282,26 @@ void GameScene::LoadEnemyPopData() {
 
 	// ファイルを閉じる
 	file.close();
+
 }
 
 // 敵発生コマンドの更新
-void GameScene::UpdateEnemyPopCommands() {
-	// 待機処理
-	if (isWait) {
-		waitTimer--;
-		if (waitTimer <= 0) {
-			// 待機完了
-			isWait = false;
-		}
-		return;
-	}
+void GameScene::UpdateEnemyPopCommands() 
+{
 
-	// 1行文の文字列を入れる変数
-	std::string line;
 
-	// コマンド実行ループ
-	while (getline(enemyPopCommands, line)) {
-		// 1行文分の文字列をストリームに変換して解析しやすくする
-		std::istringstream line_stream(line);
-
-		std::string word;
-		//,区切りで行の先頭文字列を取得
-		getline(line_stream, word, ',');
-		//"//"から始まる行はコメント
-		if (word.find("//") == 0) {
-			// コメント行を飛ばす
-			continue;
-		}
-		// POPコマンド
-		if (word.find("POP") == 0) {
-			// X座標
-			getline(line_stream, word, ',');
-			float x = (float)std::atof(word.c_str());
-
-			// Y座標
-			getline(line_stream, word, ',');
-			float y = (float)std::atof(word.c_str());
-
-			// Z座標
-			getline(line_stream, word, ',');
-			float z = (float)std::atof(word.c_str());
-
+	
+	
+		if (enemyCount < 40)
+		{
+		
 			// 敵を発生させる
-			EnemyPop(Vector3(x, y, z));
+			EnemyPop(Vector3(0, 0, 0 * 10.0f));
+		
+
+
 		}
-		// WAITコマンド
-		else if (word.find("WAIT") == 0) {
-			getline(line_stream, word, ',');
-
-			// 待ち時間
-			int32_t waitTime = atoi(word.c_str());
-
-			// 待機開始
-			isWait = true;
-			waitTimer = waitTime;
-
-			// コマンドループを抜ける
-			break; // 重要
-		}
-	}
+	
 }
 
 // 敵発生関数
@@ -320,21 +315,29 @@ void GameScene::EnemyPop(Vector3 pos) {
 
 	};
 
+	enemyCount++;
+
 	// 敵の生成
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
 	// 初期化
 	newEnemy->Initialize(enemyModels);
+
+	newEnemy->SetPos(Vector3{pos.x, pos.y, float(enemyCount * 10)});
 	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
 	enemies_.push_back(std::move(newEnemy));
 
 	// イテレータ
-	for (std::unique_ptr<Enemy>& enemy : enemies_) {
+	for (std::unique_ptr<Enemy>& enemy : enemies_) 
+	{
 		// 各セッターに値を代入
-		SetEnemyPopPos(pos);
+	  
+		    
 		enemy->GetViewProjection(&followCamera_->GetViewProjection());
 		enemy->SetGameScene(this);
 		// 更新
 		enemy->Update();
 	}
+
+
 }
