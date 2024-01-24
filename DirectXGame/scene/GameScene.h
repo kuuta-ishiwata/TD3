@@ -117,13 +117,12 @@ private: // メンバ変数
 	std::unique_ptr<Player> player_;
 
 	//道
-	std::unique_ptr<Load> load_;
+	std::unique_ptr<Load> road_;
 	std::unique_ptr<Model> loadModel_;
 
-		// 木
+	// 木
 	std::unique_ptr<Tree> tree_[80];
 	std::unique_ptr<Model> treeModel_;
-
 
 	//コマンド
 	GameInput* gameInput_ = nullptr;
@@ -142,7 +141,6 @@ private: // メンバ変数
 	// 待機タイマー
 	uint32_t waitTimer = 0;
 
-
 	// 3Dモデル
 	std::unique_ptr<Model> modelFighterBody_;
 	std::unique_ptr<Model> modelFighterBody2_;
@@ -151,7 +149,7 @@ private: // メンバ変数
 
 	float count = 0;
 
-	/// <summary>
-	/// ゲームシーン用
-	/// </summary>
+	bool isTimeStop_ = false;
+
+	int commandCount_ = 0;
 };

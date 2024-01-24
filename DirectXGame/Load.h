@@ -25,5 +25,4 @@ private:
 	uint32_t textureHandle_ = 0u;
 	//道回転
 	uint32_t waitTimer = 0;
-
 };

@@ -34,10 +34,10 @@ public:
 
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
-
 	// 衝突を検出したら呼び出されるコールバック関数
-
 	void OnCollision();
+
+	bool isAttack() { return isAttack_; }
 
 private:
 	// ワールド変換データ
@@ -58,14 +58,14 @@ private:
 
 	bool isSpeed = false;
 	const float startSpeed = 1.0f;
-	bool isHitBlock_ = false;
+	bool isHit_ = false;
 	int hitDownTime_ = 0;
 	const int kHitDownTime_ = 0;
 	bool isAttack_ = false;
 	int attackDownTime_ = 0;
 	const int kAttackDownTime_ = 0;
 
-
+	int isTimeStop = false;
 
 
 };
