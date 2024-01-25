@@ -88,8 +88,7 @@ void GameScene::Initialize() {
 	treeModel_.reset(Model::CreateFromOBJ("tree", true));
 
 	// 敵
-	//modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
-	modelFighterBody_.reset(Model::Create());
+	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterBody2_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterBody3_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterBody4_.reset(Model::CreateFromOBJ("float_Body", true));
@@ -330,20 +329,19 @@ void GameScene::EnemyPop(Vector3 pos) {
 	// 敵の生成
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
-	// 各セッターに値を代入
-	newEnemy->SetGameScene(this);
-	newEnemy->SetPlayer(player_.get());
-	
 	// 初期化
 	newEnemy->Initialize(enemyModels);
-		
+	newEnemy->SetPos(pos);
+
 	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
 	enemies_.push_back(std::move(newEnemy));
 
 	// イテレータ
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
-		enemy->SetPos(pos);
+		// 各セッターに値を代入
+
 		enemy->GetViewProjection(&followCamera_->GetViewProjection());
+		enemy->SetGameScene(this);
 		// 更新
 		enemy->Update();
 	}
