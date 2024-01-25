@@ -9,20 +9,18 @@
 #include "ImGuiManager.h"
 #include "Input.h"
 #include "TextureManager.h"
-#include "time.h"
 #include "PrimitiveDrawer.h"
 #include "DirectXCommon.h"
 #include "assert.h"
-
-#include "MATHEX.h"
-#include "BaseCharacter.h"
+#include "time.h"
 
 #include <memory>
 #include <WinApp.h>
 #include <sstream>
 #include <stdio.h>
 #include <string>
-#include <numbers>
-#include <vector>
 #include <list>
 #include <cassert>
+
+#include "BaseCharacter.h"
+#include "MATHEX.h"
