@@ -24,6 +24,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	velocity_ = {0.0f, 0.0f, startSpeed};
 	isHit_ = false;
 	isAttack_ = false;
+	isBack_ = true;
 	hitDownTime_ = kHitDownTime_;
 	attackDownTime_ = kAttackDownTime_;
 }
@@ -48,6 +49,7 @@ void Player::Update(ViewProjection& viewProjection) {
 
 	if (worldTransform_.translation_.z >= 400) {
 		worldTransform_.translation_.z = 0;
+		isBack_ = true;
 	}
 
 	// 座標を移動させる(1フレーム分の移動量を足し込む)
@@ -62,6 +64,7 @@ void Player::Update(ViewProjection& viewProjection) {
 		ImGui::SliderFloat3("speed", &velocity_.x, -10, 10);
 		ImGui::Checkbox("isAttack", &isAttack_);
 		ImGui::Checkbox("isHit", &isHit_);
+		ImGui::Checkbox("isBack", &isBack_);
 
 		ImGui::TreePop();
 	}

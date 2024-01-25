@@ -39,6 +39,9 @@ public:
 
 	bool isAttack() { return isAttack_; }
 
+	void SetIsBack(bool flag) { isBack_ = flag; }
+	bool GetIsBack() { return isBack_; }
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -55,6 +58,8 @@ private:
 
 	// 3Dレティクル用ワールドトランスフォーム
 	WorldTransform worldTransform3DReticle_;
+
+	bool isBack_ = false;
 
 	bool isSpeed = false;
 	const float startSpeed = 1.0f;

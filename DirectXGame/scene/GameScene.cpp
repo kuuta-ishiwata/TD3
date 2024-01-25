@@ -43,7 +43,6 @@ void GameScene::CheckAllCollisions() {
 					}
 					// 敵キャラの衝突時コールバックを呼び出す
 					enemy->OnCollision();
-					enemyCount--;
 				}
 			}
 		}
@@ -136,7 +135,6 @@ void GameScene::Initialize() {
 
 	// エネミー
 	UpdateEnemyPopCommands();
-	enemyCount = 0;
 
 	//// 軸方向表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(false);
@@ -146,6 +144,7 @@ void GameScene::Initialize() {
 	commandCount_ = 0;
 	isCoomand_ = false;
 	isCommandCount_ = 0;
+	enemyKillCount_ = 0;
 }
 
 void GameScene::Update() {
@@ -203,6 +202,7 @@ void GameScene::Update() {
 			isCommandSprite_->SetTextureRect({0.0f, 0.0f}, {120.0f, 120.0f});
 			isTimeStop_ = false;
 			commandCount_ = 0;
+			enemyKillCount_++;
 		}
 		// 時間切れ
 		else {
@@ -228,7 +228,7 @@ void GameScene::Update() {
 
 	ImGui::Begin("window");
 	if (ImGui::TreeNode("Enemy")) {
-		ImGui::Text("count %d", enemyCount);
+		ImGui::Text("kill count %d", enemyKillCount_);
 		ImGui::TreePop();
 	}
 	ImGui::End();
@@ -313,9 +313,12 @@ void GameScene::Draw() {
 // 敵発生コマンドの更新
 void GameScene::UpdateEnemyPopCommands() {
 
-	if (enemyCount < 40) {
+	if (player_->GetIsBack()) {
 		// 敵を発生させる
-		EnemyPop(Vector3(0, 0, 0 * 10.0f));
+		for (int i = 0; i < 40; ++i) {
+			EnemyPop(Vector3(0.0f, 0.0f, float((i + 1) * 20.0f)));
+		}
+		player_->SetIsBack(false);
 	}
 }
 
@@ -327,10 +330,7 @@ void GameScene::EnemyPop(Vector3 pos) {
 	    modelFighterBody_.get(),
 	    modelFighterBody_.get(),
 	    modelFighterBody_.get(),
-
 	};
-
-	enemyCount++;
 
 	// 敵の生成
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
@@ -338,7 +338,7 @@ void GameScene::EnemyPop(Vector3 pos) {
 	// 初期化
 	newEnemy->Initialize(enemyModels);
 
-	newEnemy->SetPos(Vector3{pos.x, pos.y, float(enemyCount * 10)});
+	newEnemy->SetPos(pos);
 	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
 	enemies_.push_back(std::move(newEnemy));
 

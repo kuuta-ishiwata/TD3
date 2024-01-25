@@ -124,7 +124,7 @@ private: // メンバ変数
 	//コマンド
 	GameInput* gameInput_ = nullptr;
 
-	int enemyCount = 0;
+	int enemyKillCount_ = 0;
 
 	// エネミー
 	//std::list<std::unique_ptr<Enemy>> enemies_;
