@@ -1,11 +1,4 @@
 #include "GameScene.h"
-#include "AxisIndicator.h"
-#include "GameScene.h"
-#include "TextureManager.h"
-#include <cassert>
-#include <fstream>
-#include <iostream>
-#include <map>
 
 GameScene::GameScene() {}
 

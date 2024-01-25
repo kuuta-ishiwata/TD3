@@ -13,10 +13,13 @@
 #include <memory>
 #include <sstream>
 #include <fstream>
+#include <iostream>
 #include <stdio.h>
 #include <string>
 #include <list>
 #include <variant>
+#include <map>
+
 #include <WinApp.h>
 
 #include "BaseCharacter.h"
