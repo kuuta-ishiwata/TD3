@@ -1,26 +1,23 @@
 #pragma once 
 #include "Audio.h"
-#include "Model.h"
-#include "Sprite.h"
-#include "ViewProjection.h"
-#include "WorldTransform.h"
-#include "DebugCamera.h"
-#include "FollowCamera.h"
-#include "ImGuiManager.h"
-#include "Input.h"
-#include "TextureManager.h"
-#include "PrimitiveDrawer.h"
+#include "AxisIndicator.h"
 #include "DirectXCommon.h"
+#include "DebugCamera.h"
+#include "Input.h"
+#include "PrimitiveDrawer.h"
+
 #include "assert.h"
 #include "time.h"
 
+#include <cassert>
 #include <memory>
-#include <WinApp.h>
 #include <sstream>
+#include <fstream>
 #include <stdio.h>
 #include <string>
 #include <list>
-#include <cassert>
+#include <variant>
+#include <WinApp.h>
 
 #include "BaseCharacter.h"
 #include "MATHEX.h"
