@@ -90,9 +90,6 @@ private: // メンバ変数
 	std::unique_ptr<Ground> ground_;
 	std::unique_ptr<Model> groundModel_;
 
-	// 敵キャラ
-	std::list<std::unique_ptr<Enemy>> enemies_;
-	
 	//プレイヤー
 	std::unique_ptr<Player> player_;
 
@@ -110,8 +107,7 @@ private: // メンバ変数
 	int enemyKillCount_ = 0;
 
 	// エネミー
-	//std::list<std::unique_ptr<Enemy>> enemies_;
-	// 敵リストを取得
+	std::list<std::unique_ptr<Enemy>> enemies_;
 	// 敵発生コマンド
 	std::stringstream enemyPopCommands;
 	Vector3 enemyPopPos = {};

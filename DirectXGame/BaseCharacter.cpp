@@ -10,7 +10,6 @@ void BaseCharacter::Update() { worldTransform_.UpdateMatrix(); }
 
 void BaseCharacter::Draw(const ViewProjection& viewProjection) 
 {
-
 	for (Model* model : models_) {
 		model->Draw(worldTransform_, viewProjection);
 	}

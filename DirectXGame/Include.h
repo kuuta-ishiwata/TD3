@@ -3,7 +3,6 @@
 #include "AxisIndicator.h"
 #include "DirectXCommon.h"
 #include "DebugCamera.h"
-#include "Input.h"
 #include "PrimitiveDrawer.h"
 
 #include "assert.h"
@@ -19,6 +18,7 @@
 #include <list>
 #include <variant>
 #include <map>
+#include <vector>
 
 #include <WinApp.h>
 

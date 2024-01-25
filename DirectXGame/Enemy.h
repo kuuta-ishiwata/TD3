@@ -9,7 +9,7 @@ class GameScene;
 
 class Enemy : public BaseCharacter {
 
-	public:
+public:
 	Vector3 GetWorldPosition();
 
 	const WorldTransform& GetWorldTransform() { return worldTransformBase_; }
@@ -37,13 +37,12 @@ class Enemy : public BaseCharacter {
 	// 浮遊ギミックの媒介変数
 	float floatingParameter_ = 0.0f;
 
-	//敵死ぬ
-	bool IsDead() const	{ return isDead_;}
+	// 敵死ぬ
+	bool IsDead() const { return isDead_; }
 
-	void GetViewProjection(const ViewProjection* viewProjection) {
-		viewProjection_ = viewProjection;
-	}
+	void GetViewProjection(const ViewProjection* viewProjection) { viewProjection_ = viewProjection; }
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+	void SetPlayer(Player* player) { player_ = player; }
 
 	// 衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
@@ -51,17 +50,12 @@ class Enemy : public BaseCharacter {
 	void SetPos(Vector3 pos) { worldTransformBase_.translation_ = pos; }
 
 private:
-
 	// ワールド変換データ
 	WorldTransform worldTransformBase_;
 	WorldTransform worldTransformBody_;
 
 	// カメラのビュープロジェクション
-	//const ViewProjection* viewprojection_ = nullptr;
-
-
-	// 3Dモデル
-	Model* enemyFighterBody_ = nullptr;
+	// const ViewProjection* viewprojection_ = nullptr;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
@@ -69,6 +63,9 @@ private:
 	const ViewProjection* viewProjection_ = nullptr;
 
 	bool isDead_ = false;
+
+	// 自キャラ
+	Player* player_ = nullptr;
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;

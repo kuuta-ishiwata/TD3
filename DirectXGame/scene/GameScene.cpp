@@ -36,6 +36,7 @@ void GameScene::CheckAllCollisions() {
 					}
 					// 敵キャラの衝突時コールバックを呼び出す
 					enemy->OnCollision();
+					commandCount_ = 0;
 				}
 			}
 		}
@@ -85,6 +86,13 @@ void GameScene::Initialize() {
 
 	// 木
 	treeModel_.reset(Model::CreateFromOBJ("tree", true));
+
+	// 敵
+	//modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterBody_.reset(Model::Create());
+	modelFighterBody2_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterBody3_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterBody4_.reset(Model::CreateFromOBJ("float_Body", true));
 
 	// skydome
 	skydome_ = std::make_unique<Skydome>();
@@ -259,11 +267,12 @@ void GameScene::Draw() {
 	road_->Draw(viewProjection_);
 
 	for (int i = 0; i < 40; ++i) {
-		tree_[i]->Draw(viewProjection_, Vector3{5.4f, 0, float(i * 10)});
-	}
-
-	for (int i = 0; i < 40; ++i) {
-		tree_[i + 40]->Draw(viewProjection_, Vector3{-5.4f, 0, float(i * 10)});
+		if (player_->GetWorldPosition().y <= 5.0f) {
+			if (player_->GetWorldPosition().z - 15.0f <= float(i * 10.0f)) {
+				tree_[i]->Draw(viewProjection_, Vector3{5.4f, 0, float(i * 10)});
+				tree_[i + 40]->Draw(viewProjection_, Vector3{-5.4f, 0, float(i * 10)});
+			}
+		}
 	}
 
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
@@ -313,27 +322,28 @@ void GameScene::EnemyPop(Vector3 pos) {
 	// 敵キャラの初期化
 	std::vector<Model*> enemyModels = {
 	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
+	    modelFighterBody2_.get(),
+	    modelFighterBody3_.get(),
+	    modelFighterBody4_.get(),
 	};
 
 	// 敵の生成
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
+	// 各セッターに値を代入
+	newEnemy->SetGameScene(this);
+	newEnemy->SetPlayer(player_.get());
+	
 	// 初期化
 	newEnemy->Initialize(enemyModels);
-
-	newEnemy->SetPos(pos);
+		
 	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
 	enemies_.push_back(std::move(newEnemy));
 
 	// イテレータ
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
-		// 各セッターに値を代入
-
+		enemy->SetPos(pos);
 		enemy->GetViewProjection(&followCamera_->GetViewProjection());
-		enemy->SetGameScene(this);
 		// 更新
 		enemy->Update();
 	}

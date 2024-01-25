@@ -6,6 +6,7 @@
 #include "TextureManager.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Input.h"
 
 class BaseCharacter {
 public:
