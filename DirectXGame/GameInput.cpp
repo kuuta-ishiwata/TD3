@@ -29,14 +29,15 @@ void GameInput::Update() {
 	srand(unsigned int(time(nullptr)));
 
 	// 文字変換
-	for (int i = 0; i < 4; ++i) {
+	while (index < 4) {
 		count = rand() % 26 + 1;
-		Translate(i);
-		if (a[i] == a[0] || a[i] == a[1] || a[i] == a[2] || a[i] == a[3]) {
+		Translate(index);
+		if (a[index] == a[0] || a[index] == a[1] || a[index] == a[2] || a[index] == a[3]) {
 			count = rand() % 26 + 1;
-			Translate(i);
+			Translate(index);
 		}
-		sprite_[i]->SetTextureRect({120.0f * count - 120.0f, 0.0f}, {120.0f, 120.0f});
+		sprite_[index]->SetTextureRect({120.0f * count -120.0f, 0.0f}, {120.0f, 120.0f});
+		index++;
 	}
 }
 
@@ -71,6 +72,7 @@ void GameInput::Reset() {
 	}
 	isCommandClear_ = false;
 	count = 0;
+	index = 0;
 }
 
 void GameInput::Translate(int i) {

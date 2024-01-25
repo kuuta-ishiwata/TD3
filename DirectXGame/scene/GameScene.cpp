@@ -64,6 +64,17 @@ void GameScene::Initialize() {
 
 	// テクスチャ
 	textureHandle_ = TextureManager::Load("inoshishi/tex.png");
+	// コマンド
+	isCommandTex_ = TextureManager::Load("commandSuccessOrFailure.png");
+	isCommandSprite_.reset(Sprite::Create(isCommandTex_, {0.0f, 0.0f}));
+	isCommandSprite_->SetSize({180.0f, 180.0f});
+	isCommandSprite_->SetTextureRect(
+	    {
+	        0.0f,
+	        0.0f,
+	    },
+	    {120.0f, 120.0f});
+	isCommandSprite_->SetPosition({550.0f, 330.0f});
 	// 木
 	treetextureHandle_ = TextureManager::Load("tree/treecolor.png");
 	// 道
@@ -107,7 +118,7 @@ void GameScene::Initialize() {
 		tree_[i]->Initialize(treeModel_.get(), treetextureHandle_);
 	}
 
-	//コマンド
+	// コマンド
 	gameInput_ = GameInput::GetInstance();
 
 	// フォローカメラ
@@ -133,6 +144,8 @@ void GameScene::Initialize() {
 
 	isTimeStop_ = false;
 	commandCount_ = 0;
+	isCoomand_ = false;
+	isCommandCount_ = 0;
 }
 
 void GameScene::Update() {
@@ -152,10 +165,10 @@ void GameScene::Update() {
 	// グラウンド
 	ground_->Update();
 
-	//道
+	// 道
 	road_->Update();
 
-	//木
+	// 木
 	for (int i = 0; i < 80; i++) {
 		tree_[i]->Update();
 	}
@@ -178,15 +191,18 @@ void GameScene::Update() {
 		return false;
 	});
 
-	//当たり判定
+	// 当たり判定
 	CheckAllCollisions();
-	//コマンド処理
+	// コマンド処理
 	if (isTimeStop_) {
-		//コマンド入力
+		// コマンド入力
 		gameInput_->InputCommand();
 		// コマンド成功
 		if (gameInput_->CommandClear()) {
+			isCoomand_ = true;
+			isCommandSprite_->SetTextureRect({0.0f, 0.0f}, {120.0f, 120.0f});
 			isTimeStop_ = false;
+			commandCount_ = 0;
 		}
 		// 時間切れ
 		else {
@@ -195,7 +211,16 @@ void GameScene::Update() {
 				player_->OnCollision();
 				isTimeStop_ = false;
 				commandCount_ = 0;
+				isCoomand_ = true;
+				isCommandSprite_->SetTextureRect({120.0f, 0.0f}, {120.0f, 120.0f});
 			}
+		}
+	}
+
+	if (isCoomand_) {
+		if (++isCommandCount_ >= 20) {
+			isCoomand_ = false;
+			isCommandCount_ = 0;
 		}
 	}
 
@@ -274,6 +299,9 @@ void GameScene::Draw() {
 
 	if (isTimeStop_) {
 		gameInput_->GetInstance()->Draw();
+	}
+	if (isCoomand_) {
+		isCommandSprite_->Draw();
 	}
 
 	// スプライト描画後処理

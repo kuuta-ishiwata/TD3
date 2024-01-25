@@ -107,12 +107,9 @@ private: // メンバ変数
 	std::unique_ptr<Ground> ground_;
 	std::unique_ptr<Model> groundModel_;
 
-
-
 	// 敵キャラ
 	std::list<std::unique_ptr<Enemy>> enemies_;
 	
-
 	//プレイヤー
 	std::unique_ptr<Player> player_;
 
@@ -152,4 +149,10 @@ private: // メンバ変数
 	bool isTimeStop_ = false;
 
 	int commandCount_ = 0;
+
+	int isCommandCount_ = 0;
+	bool isCoomand_ = false;
+	uint32_t isCommandTex_ = 0u;
+	// スプライト
+	std::unique_ptr<Sprite> isCommandSprite_ = {};
 };

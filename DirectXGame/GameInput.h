@@ -52,6 +52,8 @@ private:
 
 	int count = 0;
 
+	int index = 0;
+
 	// 入力
 	Input* input_ = nullptr;
 
