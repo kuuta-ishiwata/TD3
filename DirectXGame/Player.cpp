@@ -1,7 +1,5 @@
 #include "Player.h"
 
-#include <cassert>
-
 Player::~Player() {}
 
 void Player::OnCollision() { isHit_ = true; }
