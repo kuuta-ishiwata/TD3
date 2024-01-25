@@ -1,13 +1,5 @@
 ﻿#pragma once
-#include "DirectXCommon.h"
-#include "ImGuiManager.h"
-#include "Input.h"
-#include "PrimitiveDrawer.h"
-#include "Sprite.h"
-#include "WorldTransform.h"
-#include "numbers"
-#include <stdio.h>
-#include <string>
+#include "Include.h"
 
 class GameInput final {
 public:

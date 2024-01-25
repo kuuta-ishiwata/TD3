@@ -1,27 +1,10 @@
 #pragma once
-
-#include "Audio.h"
-#include "DirectXCommon.h"
-#include "Input.h"
-#include "Model.h"
-#include "Sprite.h"
-#include "ViewProjection.h"
-#include "WorldTransform.h"
-#include  "DebugCamera.h"
-#include <memory>
-#include "Model.h"
-#include "FollowCamera.h"
+#include "Enemy.h"
+#include "Player.h"
 #include "Skydome.h"
 #include "Ground.h"
-#include "MATHEX.h"
-#include "Enemy.h"
-#include <sstream>
-#include "Player.h"
-#include <memory>
 #include "Load.h"
 #include "Tree.h"
-#include "GameInput.h"
-
 
 /// <summary>
 /// ゲームシーン

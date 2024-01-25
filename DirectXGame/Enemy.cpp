@@ -1,9 +1,4 @@
 ﻿#include "Enemy.h"
-#include "MATHEX.h"
-#include <cassert>
-#include "ImGuiManager.h"
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 #include "Player.h"
 #include "GameScene.h"

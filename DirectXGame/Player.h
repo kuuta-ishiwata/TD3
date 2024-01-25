@@ -1,16 +1,5 @@
 #pragma once
-#include "ImGuiManager.h"
-#include "Input.h"
-#include "Model.h"
-#include "WorldTransform.h"
-#include <Sprite.h>
-#include <WinApp.h>
-#include"MATHEX.h"
-#include"ViewProjection.h"
-#include"TextureManager.h"
 #include "GameInput.h"
-
-
 
 class Player {
 public:

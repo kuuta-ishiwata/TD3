@@ -1,6 +1,4 @@
 ﻿#include "GameInput.h"
-#include "TextureManager.h"
-#include "time.h"
 
 GameInput::~GameInput() {}
 

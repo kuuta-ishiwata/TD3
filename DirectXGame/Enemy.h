@@ -1,11 +1,5 @@
 ﻿#pragma once
-#include "Model.h"
-#include "WorldTransform.h"
-#include "BaseCharacter.h"
-#include "assert.h"
-#include "Input.h"
-#include <vector>
-#include <list>
+#include "GameInput.h"
 
 // 自機クラスの前方宣言
 class Player;
@@ -23,8 +17,6 @@ class Enemy : public BaseCharacter {
 	void SetViewProjection(const ViewProjection* viewprojection) {
 		viewProjection_ = viewprojection;
 	}
-
-
 
 	// 初期化
 	void Initialize(const std::vector<Model*>& models) override;

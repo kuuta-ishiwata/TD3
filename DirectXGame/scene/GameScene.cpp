@@ -93,12 +93,6 @@ void GameScene::Initialize() {
 	// 木
 	treeModel_.reset(Model::CreateFromOBJ("tree", true));
 
-	// 敵
-	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
-	modelFighterBody2_.reset(Model::CreateFromOBJ("float_Body", true));
-	modelFighterBody3_.reset(Model::CreateFromOBJ("float_Body", true));
-	modelFighterBody4_.reset(Model::CreateFromOBJ("float_Body", true));
-
 	// skydome
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
@@ -312,7 +306,6 @@ void GameScene::Draw() {
 
 // 敵発生コマンドの更新
 void GameScene::UpdateEnemyPopCommands() {
-
 	if (player_->GetIsBack()) {
 		// 敵を発生させる
 		for (int i = 0; i < 40; ++i) {
