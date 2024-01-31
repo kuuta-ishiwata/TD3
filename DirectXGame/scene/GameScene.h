@@ -89,6 +89,8 @@ private: // メンバ変数
 
 	uint32_t textureHandle_ = 0u;
 
+	uint32_t HumantextureHandle = 0u;
+
 	uint32_t treetextureHandle_ = 0u;
 
 	uint32_t loadtextureHandle_ = 0u;

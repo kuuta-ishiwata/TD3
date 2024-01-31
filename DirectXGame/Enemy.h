@@ -7,6 +7,7 @@
 #include <vector>
 #include <list>
 
+
 // 自機クラスの前方宣言
 class Player;
 
@@ -67,12 +68,12 @@ private:
 	// カメラのビュープロジェクション
 	//const ViewProjection* viewprojection_ = nullptr;
 
-
 	// 3Dモデル
 	Model* enemyFighterBody_ = nullptr;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+
 	// カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 
@@ -80,4 +81,5 @@ private:
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
+	
 };

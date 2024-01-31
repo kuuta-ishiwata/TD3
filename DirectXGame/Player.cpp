@@ -6,6 +6,7 @@ Player::~Player() {}
 
 void Player::OnCollision() 
 { 
+
 	if (!isAttack_)
 	{
 
@@ -70,8 +71,10 @@ void Player::Update(ViewProjection& viewProjection) {
 	    worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
 	}*/
 
-	if (worldTransform_.translation_.z >= 400) {
+	if (worldTransform_.translation_.z >= 400) 
+	{
 		worldTransform_.translation_.z = 0;
+
 	}
 
 	// 座標を移動させる(1フレーム分の移動量を足し込む)
@@ -87,11 +90,13 @@ void Player::Update(ViewProjection& viewProjection) {
 
 		ImGui::TreePop();
 	}
-	ImGui::End();
 
+
+	ImGui::End();
 	ImGui::Begin("A");
 	ImGui::Text("%fl", sizeof(input_->GetAllKey()));
 	ImGui::End();
+
 
 #endif // _DEBUG
 	worldTransform_.UpdateMatrix();

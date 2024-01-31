@@ -57,6 +57,8 @@ void GameScene::Initialize() {
 
 	// テクスチャ
 	textureHandle_ = TextureManager::Load("inoshishi/tex.png");
+
+	
 	//木
 	treetextureHandle_ = TextureManager::Load("tree/treecolor.png");
 	//道
@@ -64,6 +66,11 @@ void GameScene::Initialize() {
 
 	// モデル
 	model_.reset(Model::CreateFromOBJ("inoshishi",true));
+
+	//人間モデル
+   // model_.reset(Model::CreateFromOBJ("Human", true));
+
+
 
 	// スカイドーム
 	skydomeModel_.reset(Model::CreateFromOBJ("skydome", true));
