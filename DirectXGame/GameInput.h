@@ -29,7 +29,8 @@ public:
 	
 	//コピーや代入演算子を無効化
 	static GameInput* GetInstance()
-	{ static GameInput instance;
+	{ 
+		static GameInput instance;
 		return &instance;
 
 	}

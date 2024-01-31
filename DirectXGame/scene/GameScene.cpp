@@ -227,16 +227,12 @@ void GameScene::Draw() {
 	
 	for (int i = 0; i < 40; ++i)
 	{
-		
 			tree_[i]->Draw(viewProjection_, Vector3{5.4f, 0, float(i * 10)});
-		
-			
 	}
 
-	for (int i = 0; i < 40; ++i) {
-
+	for (int i = 0; i < 40; ++i) 
+	{
 		tree_[i +40]->Draw(viewProjection_, Vector3{-5.4f, 0, float(i  * 10)});
-
 	}
 
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
@@ -289,17 +285,10 @@ void GameScene::LoadEnemyPopData() {
 void GameScene::UpdateEnemyPopCommands() 
 {
 
-
-	
-	
 		if (enemyCount < 40)
 		{
-		
-			// 敵を発生させる
+		    // 敵を発生させる
 			EnemyPop(Vector3(0, 0, 0 * 10.0f));
-		
-
-
 		}
 	
 }
