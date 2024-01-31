@@ -1,16 +1,8 @@
 #include "GameScene.h"
-#include "AxisIndicator.h"
-#include "TextureManager.h"
-#include <cassert>
-#include <fstream>
-#include <iostream>
-#include <map>
-
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {}
-
 
 void GameScene::CheckAllCollisions() {
 
@@ -30,19 +22,27 @@ void GameScene::CheckAllCollisions() {
 			if (posA.y + 1.0f >= posB.y && posA.y <= posB.y + 1.0f) {
 				if (posA.x + 1.0f >= posB.x && posA.x <= posB.x + 1.0f) {
 
-					gameInput_->Upadte();
-					// 自弾の衝突時コールバックを呼び出す
-					player_->OnCollision();
+					// 攻撃している時
+					if (player_->isAttack()) {
+						// コマンドリセット
+						gameInput_->Reset();
+						// コマンド決定
+						gameInput_->Update();
+						// 時間を止める処理
+						isTimeStop_ = true;
+					} else {
+						// 自キャラの衝突時コールバックを呼び出す
+						player_->OnCollision();
+					}
 					// 敵キャラの衝突時コールバックを呼び出す
 					enemy->OnCollision();
-					enemyCount--;
+					commandCount_ = 0;
 				}
 			}
 		}
 	}
 #pragma endregion
 }
-
 
 void GameScene::Initialize() {
 
@@ -57,15 +57,24 @@ void GameScene::Initialize() {
 
 	// テクスチャ
 	textureHandle_ = TextureManager::Load("inoshishi/tex.png");
-
-	
-	//木
+	// コマンド
+	isCommandTex_ = TextureManager::Load("commandSuccessOrFailure.png");
+	isCommandSprite_.reset(Sprite::Create(isCommandTex_, {0.0f, 0.0f}));
+	isCommandSprite_->SetSize({180.0f, 180.0f});
+	isCommandSprite_->SetTextureRect(
+	    {
+	        0.0f,
+	        0.0f,
+	    },
+	    {120.0f, 120.0f});
+	isCommandSprite_->SetPosition({550.0f, 330.0f});
+	// 木
 	treetextureHandle_ = TextureManager::Load("tree/treecolor.png");
-	//道
+	// 道
 	loadtextureHandle_ = TextureManager::Load("straightroad/road.png");
 
 	// モデル
-	model_.reset(Model::CreateFromOBJ("inoshishi",true));
+	model_.reset(Model::CreateFromOBJ("inoshishi", true));
 
 	//人間モデル
    // model_.reset(Model::CreateFromOBJ("Human", true));
@@ -77,13 +86,11 @@ void GameScene::Initialize() {
 	// グラウンド
 	groundModel_.reset(Model::CreateFromOBJ("ground", true));
 
-	//道
+	// 道
 	loadModel_.reset(Model::CreateFromOBJ("straightroad", true));
 
-
-	//木
+	// 木
 	treeModel_.reset(Model::CreateFromOBJ("tree", true));
-
 
 	// 敵
 	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
@@ -99,19 +106,18 @@ void GameScene::Initialize() {
 	ground_ = std::make_unique<Ground>();
 	ground_->Initialize(groundModel_.get());
 
-	//道
-	load_ = std::make_unique<Load>();
-	load_->Initialize(loadModel_.get(),loadtextureHandle_);
+	// 道
+	road_ = std::make_unique<Load>();
+	road_->Initialize(loadModel_.get(), loadtextureHandle_);
 
-	//木
-	for (int i = 0; i < 80; i++)
-	{
+	// 木
+	for (int i = 0; i < 80; i++) {
 		tree_[i] = std::make_unique<Tree>();
 		tree_[i]->Initialize(treeModel_.get(), treetextureHandle_);
 	}
 
-	//コマンド
-	gameInput_->GetInstance();
+	// コマンド
+	gameInput_ = GameInput::GetInstance();
 
 	// フォローカメラ
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -128,12 +134,16 @@ void GameScene::Initialize() {
 
 	// エネミー
 	UpdateEnemyPopCommands();
-	enemyCount = 0;
-
 
 	//// 軸方向表示を有効にする
-	AxisIndicator::GetInstance()->SetVisible(true);
+	AxisIndicator::GetInstance()->SetVisible(false);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
+
+	isTimeStop_ = false;
+	commandCount_ = 0;
+	isCoomand_ = false;
+	isCommandCount_ = 0;
+	enemyKillCount_ = 0;
 }
 
 void GameScene::Update() {
@@ -147,32 +157,27 @@ void GameScene::Update() {
 
 	viewProjection_.TransferMatrix();
 
-	// コマンド
-	
-
 	// 天球
 	skydome_->Update();
 
 	// グラウンド
 	ground_->Update();
 
-	CheckAllCollisions();
+	// 道
+	road_->Update();
 
-	load_->Update();
-
-	for (int i = 0; i < 80; i++) 
-	{
+	// 木
+	for (int i = 0; i < 80; i++) {
 		tree_[i]->Update();
 	}
-	
-
-	//プレイヤー
-	player_->Update(viewProjection_);
+	// プレイヤー
+	if (!isTimeStop_) {
+		player_->Update(viewProjection_);
+	}
 
 	// 敵の発生と更新
 	UpdateEnemyPopCommands();
-	for (std::unique_ptr<Enemy>& enemy : enemies_) 
-	{
+	for (std::unique_ptr<Enemy>& enemy : enemies_) {
 		enemy->Update();
 	}
 	// デスフラグの立った敵を削除
@@ -184,19 +189,52 @@ void GameScene::Update() {
 		return false;
 	});
 
-	worldTransform_.UpdateMatrix();
+	// 当たり判定
+	CheckAllCollisions();
+	// コマンド処理
+	if (isTimeStop_) {
+		// コマンド入力
+		gameInput_->InputCommand();
+		// コマンド成功
+		if (gameInput_->CommandClear()) {
+			isCoomand_ = true;
+			isCommandSprite_->SetTextureRect({0.0f, 0.0f}, {120.0f, 120.0f});
+			isTimeStop_ = false;
+			commandCount_ = 0;
+			enemyKillCount_++;
+		}
+		// 時間切れ
+		else {
+			if (++commandCount_ >= 120) {
+				// 自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision();
+				isTimeStop_ = false;
+				commandCount_ = 0;
+				isCoomand_ = true;
+				isCommandSprite_->SetTextureRect({120.0f, 0.0f}, {120.0f, 120.0f});
+			}
+		}
+	}
 
-	#ifdef _DEBUG
+	if (isCoomand_) {
+		if (++isCommandCount_ >= 20) {
+			isCoomand_ = false;
+			isCommandCount_ = 0;
+		}
+	}
 
-	    ImGui::Begin("window");
+#ifdef _DEBUG
+
+	ImGui::Begin("window");
 	if (ImGui::TreeNode("Enemy")) {
-		ImGui::Text("count %d", enemyCount);
+		ImGui::Text("kill count %d", enemyKillCount_);
 		ImGui::TreePop();
 	}
 	ImGui::End();
 
 #endif // _DEBUG
 
+	worldTransform_.UpdateMatrix();
 }
 
 void GameScene::Draw() {
@@ -230,16 +268,15 @@ void GameScene::Draw() {
 
 	ground_->Draw(viewProjection_);
 
-	load_->Draw(viewProjection_);
-	
-	for (int i = 0; i < 40; ++i)
-	{
-			tree_[i]->Draw(viewProjection_, Vector3{5.4f, 0, float(i * 10)});
-	}
+	road_->Draw(viewProjection_);
 
-	for (int i = 0; i < 40; ++i) 
-	{
-		tree_[i +40]->Draw(viewProjection_, Vector3{-5.4f, 0, float(i  * 10)});
+	for (int i = 0; i < 40; ++i) {
+		if (player_->GetWorldPosition().y <= 5.0f) {
+			if (player_->GetWorldPosition().z - 15.0f <= float(i * 10.0f)) {
+				tree_[i]->Draw(viewProjection_, Vector3{5.4f, 0, float(i * 10)});
+				tree_[i + 40]->Draw(viewProjection_, Vector3{-5.4f, 0, float(i * 10)});
+			}
+		}
 	}
 
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
@@ -260,44 +297,28 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
+	if (isTimeStop_) {
+		gameInput_->GetInstance()->Draw();
+	}
+	if (isCoomand_) {
+		isCommandSprite_->Draw();
+	}
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
 #pragma endregion
 }
 
-
-//void GameScene::EnemyPop(Vector3 pos)
-//{
-
-	//敵キャラ初期化
-// void GameScene::CheckAllCollisions() {}
-
-// 敵発生データの読み込み
-void GameScene::LoadEnemyPopData() {
-	// ファイルを開く
-	std::ifstream file;
-	file.open("./Resources/enemyPop.csv");
-	assert(file.is_open());
-
-	// ファイルの内容を文字列ストリームにコピー
-	enemyPopCommands << file.rdbuf();
-
-	// ファイルを閉じる
-	file.close();
-
-}
-
 // 敵発生コマンドの更新
-void GameScene::UpdateEnemyPopCommands() 
-{
-
-		if (enemyCount < 40)
-		{
-		    // 敵を発生させる
-			EnemyPop(Vector3(0, 0, 0 * 10.0f));
+void GameScene::UpdateEnemyPopCommands() {
+	if (player_->GetIsBack()) {
+		// 敵を発生させる
+		for (int i = 0; i < 40; ++i) {
+			EnemyPop(Vector3(0.0f, 0.0f, float((i + 1) * 20.0f)));
 		}
-	
+		player_->SetIsBack(false);
+	}
 }
 
 // 敵発生関数
@@ -305,35 +326,28 @@ void GameScene::EnemyPop(Vector3 pos) {
 	// 敵キャラの初期化
 	std::vector<Model*> enemyModels = {
 	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-	    modelFighterBody_.get(),
-
+	    modelFighterBody2_.get(),
+	    modelFighterBody3_.get(),
+	    modelFighterBody4_.get(),
 	};
-
-	enemyCount++;
 
 	// 敵の生成
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
 	// 初期化
 	newEnemy->Initialize(enemyModels);
+	newEnemy->SetPos(pos);
 
-	newEnemy->SetPos(Vector3{pos.x, pos.y, float(enemyCount * 10)});
 	// リストに敵を登録する, std::moveでユニークポインタの所有権移動
 	enemies_.push_back(std::move(newEnemy));
 
 	// イテレータ
-	for (std::unique_ptr<Enemy>& enemy : enemies_) 
-	{
+	for (std::unique_ptr<Enemy>& enemy : enemies_) {
 		// 各セッターに値を代入
-	  
-		    
+
 		enemy->GetViewProjection(&followCamera_->GetViewProjection());
 		enemy->SetGameScene(this);
 		// 更新
 		enemy->Update();
 	}
-
-
 }

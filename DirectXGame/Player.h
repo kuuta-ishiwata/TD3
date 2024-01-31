@@ -1,16 +1,5 @@
 #pragma once
-#include "ImGuiManager.h"
-#include "Input.h"
-#include "Model.h"
-#include "WorldTransform.h"
-#include <Sprite.h>
-#include <WinApp.h>
-#include"MATHEX.h"
-#include"ViewProjection.h"
-#include"TextureManager.h"
 #include "GameInput.h"
-
-
 
 class Player {
 public:
@@ -34,10 +23,13 @@ public:
 
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
-
 	// 衝突を検出したら呼び出されるコールバック関数
-
 	void OnCollision();
+
+	bool isAttack() { return isAttack_; }
+
+	void SetIsBack(bool flag) { isBack_ = flag; }
+	bool GetIsBack() { return isBack_; }
 
 private:
 	// ワールド変換データ
@@ -56,16 +48,18 @@ private:
 	// 3Dレティクル用ワールドトランスフォーム
 	WorldTransform worldTransform3DReticle_;
 
+	bool isBack_ = false;
+
 	bool isSpeed = false;
 	const float startSpeed = 1.0f;
-	bool isHitBlock_ = false;
+	bool isHit_ = false;
 	int hitDownTime_ = 0;
 	const int kHitDownTime_ = 0;
 	bool isAttack_ = false;
 	int attackDownTime_ = 0;
 	const int kAttackDownTime_ = 0;
 
-
+	int isTimeStop = false;
 
 
 };

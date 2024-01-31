@@ -1,27 +1,10 @@
 #pragma once
-
-#include "Audio.h"
-#include "DirectXCommon.h"
-#include "Input.h"
-#include "Model.h"
-#include "Sprite.h"
-#include "ViewProjection.h"
-#include "WorldTransform.h"
-#include  "DebugCamera.h"
-#include <memory>
-#include "Model.h"
-#include "FollowCamera.h"
+#include "Enemy.h"
+#include "Player.h"
 #include "Skydome.h"
 #include "Ground.h"
-#include "MATHEX.h"
-#include "Enemy.h"
-#include <sstream>
-#include "Player.h"
-#include <memory>
 #include "Load.h"
 #include "Tree.h"
-#include "GameInput.h"
-
 
 /// <summary>
 /// ゲームシーン
@@ -109,32 +92,24 @@ private: // メンバ変数
 	std::unique_ptr<Ground> ground_;
 	std::unique_ptr<Model> groundModel_;
 
-
-
-	// 敵キャラ
-	std::list<std::unique_ptr<Enemy>> enemies_;
-	
-
 	//プレイヤー
 	std::unique_ptr<Player> player_;
 
 	//道
-	std::unique_ptr<Load> load_;
+	std::unique_ptr<Load> road_;
 	std::unique_ptr<Model> loadModel_;
 
-		// 木
+	// 木
 	std::unique_ptr<Tree> tree_[80];
 	std::unique_ptr<Model> treeModel_;
-
 
 	//コマンド
 	GameInput* gameInput_ = nullptr;
 
-	int enemyCount = 0;
+	int enemyKillCount_ = 0;
 
 	// エネミー
-	//std::list<std::unique_ptr<Enemy>> enemies_;
-	// 敵リストを取得
+	std::list<std::unique_ptr<Enemy>> enemies_;
 	// 敵発生コマンド
 	std::stringstream enemyPopCommands;
 	Vector3 enemyPopPos = {};
@@ -144,7 +119,6 @@ private: // メンバ変数
 	// 待機タイマー
 	uint32_t waitTimer = 0;
 
-
 	// 3Dモデル
 	std::unique_ptr<Model> modelFighterBody_;
 	std::unique_ptr<Model> modelFighterBody2_;
@@ -153,7 +127,13 @@ private: // メンバ変数
 
 	float count = 0;
 
-	/// <summary>
-	/// ゲームシーン用
-	/// </summary>
+	bool isTimeStop_ = false;
+
+	int commandCount_ = 0;
+
+	int isCommandCount_ = 0;
+	bool isCoomand_ = false;
+	uint32_t isCommandTex_ = 0u;
+	// スプライト
+	std::unique_ptr<Sprite> isCommandSprite_ = {};
 };

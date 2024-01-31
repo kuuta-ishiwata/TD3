@@ -154,6 +154,7 @@
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="GameInput.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Include.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="Load.h" />
     <ClInclude Include="MATHEX.h" />

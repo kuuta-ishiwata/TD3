@@ -3,7 +3,9 @@
 #include "Matrix4x4.h"
 #include "Vector3.h"
 #include <cmath>
-
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <numbers>
 
 Vector3 Add(const Vector3 v1, const Vector3 v2);
 Vector3 Subtract(const Vector3& v1, const Vector3& v2);

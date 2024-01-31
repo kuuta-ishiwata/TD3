@@ -1,27 +1,8 @@
 #include "Player.h"
 
-#include <cassert>
-
 Player::~Player() {}
 
-void Player::OnCollision() 
-{ 
-
-	if (!isAttack_)
-	{
-
-		isHitBlock_ = true;
-	}
-	else {
-
-		if (!GameInput::GetInstance()->Input())
-		{
-			isHitBlock_ = true;
-
-	    }
-	}
-
-}
+void Player::OnCollision() { isHit_ = true; }
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 
@@ -39,22 +20,19 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 	worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
 	velocity_ = {0.0f, 0.0f, startSpeed};
-	isHitBlock_ = false;
+	isHit_ = false;
 	isAttack_ = false;
+	isBack_ = true;
 	hitDownTime_ = kHitDownTime_;
 	attackDownTime_ = kAttackDownTime_;
 }
 
 void Player::Update(ViewProjection& viewProjection) {
 	viewProjection;
-	
 
-	if (input_->IsTriggerMouse(WM_RBUTTONDOWN == 0)) {
+	if (input_->TriggerKey(DIK_SPACE)) {
 		isAttack_ = true;
 	}
-	/*else if (input_->IsTriggerMouse(WM_LBUTTONDOWN != 0)) {
-	    isHitBlock_ = true;
-	}*/
 
 	// 攻撃
 	if (isAttack_) {
@@ -62,23 +40,18 @@ void Player::Update(ViewProjection& viewProjection) {
 	}
 
 	// 岩に当たったら
-	if (isHitBlock_) {
+	if (isHit_) {
 		// 減速
 		Deceleration();
 	}
 
-	/*if (input_->IsPressMouse(WM_LBUTTONDOWN != 0)) {
-	    worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
-	}*/
-
-	if (worldTransform_.translation_.z >= 400) 
-	{
+	if (worldTransform_.translation_.z >= 400) {
 		worldTransform_.translation_.z = 0;
-
+		isBack_ = true;
 	}
 
 	// 座標を移動させる(1フレーム分の移動量を足し込む)
-	 worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 
 #ifdef _DEBUG
 
@@ -87,6 +60,9 @@ void Player::Update(ViewProjection& viewProjection) {
 		ImGui::SliderFloat3("translation", &worldTransform_.translation_.x, -10, 10);
 		ImGui::SliderFloat3("rotation", &worldTransform_.rotation_.x, -10, 10);
 		ImGui::SliderFloat3("speed", &velocity_.x, -10, 10);
+		ImGui::Checkbox("isAttack", &isAttack_);
+		ImGui::Checkbox("isHit", &isHit_);
+		ImGui::Checkbox("isBack", &isBack_);
 
 		ImGui::TreePop();
 	}
@@ -132,7 +108,7 @@ void Player::Deceleration() {
 	velocity_ = Multiply(acceleration, velocity);
 
 	if (++hitDownTime_ >= 20) {
-		isHitBlock_ = false;
+		isHit_ = false;
 		velocity_.z = startSpeed;
 		hitDownTime_ = kHitDownTime_;
 	}

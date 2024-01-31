@@ -1,11 +1,5 @@
 ﻿#pragma once
-#include "Model.h"
-#include "WorldTransform.h"
-#include "BaseCharacter.h"
-#include "assert.h"
-#include "Input.h"
-#include <vector>
-#include <list>
+#include "GameInput.h"
 
 
 // 自機クラスの前方宣言
@@ -16,7 +10,7 @@ class GameScene;
 
 class Enemy : public BaseCharacter {
 
-	public:
+public:
 	Vector3 GetWorldPosition();
 
 	const WorldTransform& GetWorldTransform() { return worldTransformBase_; }
@@ -24,8 +18,6 @@ class Enemy : public BaseCharacter {
 	void SetViewProjection(const ViewProjection* viewprojection) {
 		viewProjection_ = viewprojection;
 	}
-
-
 
 	// 初期化
 	void Initialize(const std::vector<Model*>& models) override;
@@ -46,13 +38,12 @@ class Enemy : public BaseCharacter {
 	// 浮遊ギミックの媒介変数
 	float floatingParameter_ = 0.0f;
 
-	//敵死ぬ
-	bool IsDead() const	{ return isDead_;}
+	// 敵死ぬ
+	bool IsDead() const { return isDead_; }
 
-	void GetViewProjection(const ViewProjection* viewProjection) {
-		viewProjection_ = viewProjection;
-	}
+	void GetViewProjection(const ViewProjection* viewProjection) { viewProjection_ = viewProjection; }
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+	void SetPlayer(Player* player) { player_ = player; }
 
 	// 衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
@@ -60,7 +51,6 @@ class Enemy : public BaseCharacter {
 	void SetPos(Vector3 pos) { worldTransformBase_.translation_ = pos; }
 
 private:
-
 	// ワールド変換データ
 	WorldTransform worldTransformBase_;
 	WorldTransform worldTransformBody_;
@@ -70,6 +60,7 @@ private:
 
 	// 3Dモデル
 	Model* enemyFighterBody_ = nullptr;
+	Model* enemyFighterBody_ = nullptr;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
@@ -78,6 +69,9 @@ private:
 	const ViewProjection* viewProjection_ = nullptr;
 
 	bool isDead_ = false;
+
+	// 自キャラ
+	Player* player_ = nullptr;
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
