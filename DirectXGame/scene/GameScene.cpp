@@ -21,11 +21,13 @@ void GameScene::CheckAllCollisions() {
 		if (posA.z + 1.0f >= posB.z && posA.z <= posB.z + 1.0f) {
 			if (posA.y + 1.0f >= posB.y && posA.y <= posB.y + 1.0f) {
 				if (posA.x + 1.0f >= posB.x && posA.x <= posB.x + 1.0f) {
+					player_->AttackOnCollision();
 
 					// 攻撃している時
 					if (player_->isAttack()) {
 						// コマンドリセット
 						gameInput_->Reset();
+						
 						// コマンド決定
 						gameInput_->Update();
 						// 時間を止める処理
@@ -33,6 +35,7 @@ void GameScene::CheckAllCollisions() {
 					} else {
 						// 自キャラの衝突時コールバックを呼び出す
 						player_->OnCollision();
+					
 					}
 					// 敵キャラの衝突時コールバックを呼び出す
 					enemy->OnCollision();

@@ -30,9 +30,9 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 void Player::Update(ViewProjection& viewProjection) {
 	viewProjection;
 
-	if (input_->TriggerKey(DIK_SPACE)) {
-		isAttack_ = true;
-	}
+	 //if (input_->TriggerKey(DIK_SPACE)) {
+	 //	isAttack_ = true;
+	 //}
 
 	// 攻撃
 	if (isAttack_) {
@@ -114,6 +114,12 @@ void Player::Deceleration() {
 	}
 }
 
+void Player::AttackOnCollision()
+{ 
+	isAttack_ = true;
+
+}
+
 Vector3 Player::GetWorldPosition() {
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
@@ -124,6 +130,7 @@ Vector3 Player::GetWorldPosition() {
 
 	return worldPos;
 }
+
 
 // void Player::ScreenWorldTransformation(ViewProjection& viewProjection) {
 //	POINT mousePosition;

@@ -60,7 +60,7 @@ private:
 
 	// 3Dモデル
 	Model* enemyFighterBody_ = nullptr;
-	Model* enemyFighterBody_ = nullptr;
+	//Model* enemyFighterBody_ = nullptr;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
