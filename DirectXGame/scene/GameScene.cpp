@@ -236,7 +236,9 @@ void GameScene::Update() {
 		}
 		// 時間切れ
 		else {
-			if (++commandCount_ >= 120) {
+			if (++commandCount_ >= 120)
+			{
+
 				// 自キャラの衝突時コールバックを呼び出す
 				player_->OnCollision();
 				isTimeStop_ = false;
@@ -244,6 +246,8 @@ void GameScene::Update() {
 				isCoomand_ = true;
 				isCommandSprite_->SetTextureRect({120.0f, 0.0f}, {120.0f, 120.0f});
 				gauge->Incorrect();
+
+
 			}
 		}
 	}
