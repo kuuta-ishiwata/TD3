@@ -140,6 +140,9 @@ void GameScene::Initialize() {
 	// 自キャラに追従カメラセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 
+	gauge = new Gauge();
+	gauge->Initialize();
+
 	// エネミー
 	UpdateEnemyPopCommands();
 
@@ -165,6 +168,9 @@ void GameScene::Update() {
 
 	viewProjection_.TransferMatrix();
 
+	
+
+
 	// 天球
 	skydome_->Update();
 
@@ -173,6 +179,8 @@ void GameScene::Update() {
 
 	// 道
 	road_->Update();
+
+	gauge->Update();
 
 	// 木
 	for (int i = 0; i < 80; i++) {
@@ -258,6 +266,8 @@ void GameScene::Draw() {
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
 
+    
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -307,6 +317,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+
+	gauge->Draw();
 
 	if (isTimeStop_) {
 		gameInput_->GetInstance()->Draw();

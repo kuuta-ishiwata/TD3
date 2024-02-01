@@ -1,20 +1,23 @@
 ﻿#pragma once
-#include "Model.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
-
-
+#include"Sprite.h"
+#include "TextureManager.h"
+#include "MATHEX.h"
 
 class Gauge {
 
 public:
+	
+	Gauge();
 
+	~Gauge();
 
 	void Initialize();
 
 	void Update();
 
-	void Draw(ViewProjection* viewprojection_);
+	void Draw();
 
 
 
@@ -28,7 +31,11 @@ private:
 	const ViewProjection* viewProjection_ = nullptr;
 
 
+	uint32_t GaugeSprite = 0u;
 
+	Sprite* GaugeSprite_ = nullptr;
 
+	
+	Vector2 size_;
 
 };
