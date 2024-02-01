@@ -19,8 +19,8 @@ public:
 
 	void Draw();
 
-
-
+	void OnCollision();
+	void OnCollision2();
 
 private:
 
@@ -37,5 +37,9 @@ private:
 
 	
 	Vector2 size_;
+
+	float speed_ = 0.2f;
+
+	bool flag = false;
 
 };

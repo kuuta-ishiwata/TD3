@@ -25,7 +25,7 @@ void Gauge::Update()
 	
 	if (size_.y >= 0)
 	{
-		size_.y -= 0.4f;
+		size_.y -= speed_;
 		GaugeSprite_->SetSize(size_);
 	}
 
@@ -41,3 +41,15 @@ void Gauge::Draw()
 
 	
 }
+
+
+void Gauge::OnCollision() 
+{
+
+	if (flag == true) 
+	{
+		speed_ = 0;
+	}
+}
+
+void Gauge::OnCollision2() { flag = true; }

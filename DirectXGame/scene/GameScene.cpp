@@ -33,6 +33,8 @@ void GameScene::CheckAllCollisions() {
 						gameInput_->Update();
 						// 時間を止める処理
 						isTimeStop_ = true;
+						gauge->OnCollision2();
+						gauge->OnCollision();
 					} 
 					else 
 					{
