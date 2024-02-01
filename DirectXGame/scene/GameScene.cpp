@@ -6,6 +6,7 @@ GameScene::~GameScene() {}
 
 void GameScene::CheckAllCollisions() {
 
+		
 	// 判定対象AとBの座標
 	Vector3 posA, posB;
 #pragma region 自キャラと敵キャラの当たり判定
@@ -15,7 +16,7 @@ void GameScene::CheckAllCollisions() {
 	// 敵キャラの座標
 	for (std::unique_ptr<Enemy>& enemy : enemies_) {
 		posB = enemy->GetWorldPosition();
-
+	
 		// 座標AとBの距離を求める
 		// 交差判定
 		if (posA.z + 1.0f >= posB.z && posA.z <= posB.z + 1.0f) {
@@ -23,29 +24,35 @@ void GameScene::CheckAllCollisions() {
 				if (posA.x + 1.0f >= posB.x && posA.x <= posB.x + 1.0f) 
 				{
 					player_->AttackOnCollision();
-
+					
 					// 攻撃している時
 					if (player_->isAttack()) 
 					{
+
 						// コマンドリセット
 						gameInput_->Reset();
 						// コマンド決定
 						gameInput_->Update();
 						// 時間を止める処理
 						isTimeStop_ = true;
-						gauge->OnCollision2();
+					
+						gauge->flagOnCollision();
+
 						gauge->OnCollision();
+						
+					
+
 					} 
 					else 
 					{
 						// 自キャラの衝突時コールバックを呼び出す
 						player_->OnCollision();
-					
+						
 					}
 
 					// 敵キャラの衝突時コールバックを呼び出す
 					enemy->OnCollision();
-				
+					
 					commandCount_ = 0;
 
 				}
@@ -53,6 +60,7 @@ void GameScene::CheckAllCollisions() {
 		}
 	}
 #pragma endregion
+	
 }
 
 void GameScene::Initialize() {

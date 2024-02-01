@@ -4,6 +4,7 @@
 #include"Sprite.h"
 #include "TextureManager.h"
 #include "MATHEX.h"
+#include "imgui.h"
 
 class Gauge {
 
@@ -20,7 +21,8 @@ public:
 	void Draw();
 
 	void OnCollision();
-	void OnCollision2();
+	void flagOnCollision();
+	void flagOnCollision2();
 
 private:
 
@@ -38,8 +40,10 @@ private:
 	
 	Vector2 size_;
 
-	float speed_ = 0.2f;
+	float speed_ = 1.0f;
 
 	bool flag = false;
+
+	int ImGuiflag = 0;
 
 };

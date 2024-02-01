@@ -22,13 +22,29 @@ void Gauge::Initialize()
 void Gauge::Update() 
 { 
 
-	
 	if (size_.y >= 0)
 	{
+
 		size_.y -= speed_;
 		GaugeSprite_->SetSize(size_);
+
 	}
 
+
+	if (flag == true)
+	{
+		ImGuiflag = 1;
+	}
+
+#ifdef _DEBUG
+	ImGui::Begin("window");
+
+	ImGui::DragInt("flag", &ImGuiflag);
+
+	
+	ImGui::End();
+
+#endif // _DEBUG
 
 }
 
@@ -45,11 +61,18 @@ void Gauge::Draw()
 
 void Gauge::OnCollision() 
 {
-
 	if (flag == true) 
 	{
 		speed_ = 0;
 	}
+	else 
+	{
+		speed_ = 1.0f;
+	}
 }
 
-void Gauge::OnCollision2() { flag = true; }
+
+void Gauge::flagOnCollision() { flag = true; }
+
+void Gauge::flagOnCollision2() {flag = false;}
+
