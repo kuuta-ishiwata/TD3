@@ -5,6 +5,7 @@ GameInput::~GameInput() {}
 GameInput::GameInput() { this->Initialize(); }
 
 void GameInput::Initialize() {
+
 	tex_ = TextureManager::Load("command.png");
 
 	for (int i = 0; i < 4; ++i) {
@@ -12,8 +13,10 @@ void GameInput::Initialize() {
 		sprite_[i]->SetSize({120.0f, 120.0f});
 		sprite_[i]->SetTextureRect(
 		    {
+
 		        0.0f,
 		        0.0f,
+
 		    },
 		    {120.0f, 120.0f});
 		sprite_[i]->SetPosition({(float)i * 120.0f + 400.0f, 330.0f});

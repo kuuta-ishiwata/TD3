@@ -114,6 +114,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="GameInput.cpp" />
+    <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Load.cpp" />
     <ClCompile Include="main.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="GameInput.h" />
+    <ClInclude Include="Gauge.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Include.h" />
     <ClInclude Include="input\Input.h" />
