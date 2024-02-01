@@ -5,6 +5,7 @@
 #include "Ground.h"
 #include "Load.h"
 #include "Tree.h"
+#include"Score.h"
 
 /// <summary>
 /// ゲームシーン
@@ -136,4 +137,6 @@ private: // メンバ変数
 	uint32_t isCommandTex_ = 0u;
 	// スプライト
 	std::unique_ptr<Sprite> isCommandSprite_ = {};
+
+	std::unique_ptr<Score> scoreSprite_;
 };
