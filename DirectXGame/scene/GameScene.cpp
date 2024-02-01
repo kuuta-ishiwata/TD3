@@ -269,6 +269,11 @@ void GameScene::Update() {
 
 	scoreSprite_->Update();
 
+	if (isTimeStop_ == false)
+	{
+		gauge->flagOnCollision2();
+	}
+
 }
 
 void GameScene::Draw() {

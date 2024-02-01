@@ -35,6 +35,16 @@ void Gauge::Update()
 	{
 		ImGuiflag = 1;
 	}
+	else
+	{
+		ImGuiflag = 0;
+	}
+
+	if (flag == true) {
+		speed_ = 0;
+	} else {
+		speed_ = 1.0f;
+	}
 
 #ifdef _DEBUG
 	ImGui::Begin("window");
@@ -61,14 +71,7 @@ void Gauge::Draw()
 
 void Gauge::OnCollision() 
 {
-	if (flag == true) 
-	{
-		speed_ = 0;
-	}
-	else 
-	{
-		speed_ = 1.0f;
-	}
+	
 }
 
 
