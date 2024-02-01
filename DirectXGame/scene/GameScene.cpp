@@ -104,10 +104,10 @@ void GameScene::Initialize() {
 	treeModel_.reset(Model::CreateFromOBJ("tree", true));
 
 	// 敵
-	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
-	modelFighterBody2_.reset(Model::CreateFromOBJ("float_Body", true));
-	modelFighterBody3_.reset(Model::CreateFromOBJ("float_Body", true));
-	modelFighterBody4_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterBody_.reset(Model::CreateFromOBJ("Hurman3", true));
+	modelFighterBody2_.reset(Model::CreateFromOBJ("Hurman3", true));
+	modelFighterBody3_.reset(Model::CreateFromOBJ("Hurman3", true));
+	modelFighterBody4_.reset(Model::CreateFromOBJ("Hurman3", true));
 
 	// skydome
 	skydome_ = std::make_unique<Skydome>();
