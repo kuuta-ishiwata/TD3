@@ -72,7 +72,7 @@ void Score::Draw()
 		sprite_[6]->Draw();
 	} else if (counter_ == 7 || counter_ == 16 || counter_ == 26) {
 		sprite_[7]->Draw();
-	} else if (counter_ <= 8 || counter_ == 17 || counter_ == 27) {
+	} else if (counter_ == 8 || counter_ == 17 || counter_ == 27) {
 		sprite_[8]->Draw();
 	} else if (counter_ == 9 || counter_ == 18 || counter_ == 28) {
 		sprite_[9]->Draw();
