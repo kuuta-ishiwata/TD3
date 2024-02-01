@@ -43,6 +43,7 @@ void GameScene::CheckAllCollisions() {
 
 					// 敵キャラの衝突時コールバックを呼び出す
 					enemy->OnCollision();
+				
 					commandCount_ = 0;
 
 				}
@@ -155,6 +156,9 @@ void GameScene::Initialize() {
 	isCoomand_ = false;
 	isCommandCount_ = 0;
 	enemyKillCount_ = 0;
+
+	scoreSprite_ = std::make_unique<Score>();
+	scoreSprite_->Initialize();
 }
 
 void GameScene::Update() {
@@ -218,6 +222,7 @@ void GameScene::Update() {
 			isTimeStop_ = false;
 			commandCount_ = 0;
 			enemyKillCount_++;
+			scoreSprite_->OnCollision();
 		}
 		// 時間切れ
 		else {
@@ -251,6 +256,9 @@ void GameScene::Update() {
 #endif // _DEBUG
 
 	worldTransform_.UpdateMatrix();
+
+	scoreSprite_->Update();
+
 }
 
 void GameScene::Draw() {
@@ -325,6 +333,11 @@ void GameScene::Draw() {
 	}
 	if (isCoomand_) {
 		isCommandSprite_->Draw();
+	}
+
+	if (scoreSprite_)
+	{
+		scoreSprite_->Draw();
 	}
 
 	// スプライト描画後処理

@@ -5,6 +5,7 @@
 #include "Ground.h"
 #include "Load.h"
 #include "Tree.h"
+#include"Score.h"
 #include "Gauge.h"
 
 /// <summary>
@@ -137,6 +138,8 @@ private: // メンバ変数
 	uint32_t isCommandTex_ = 0u;
 	// スプライト
 	std::unique_ptr<Sprite> isCommandSprite_ = {};
+
+	std::unique_ptr<Score> scoreSprite_;
 
     Gauge* gauge = nullptr;
 	

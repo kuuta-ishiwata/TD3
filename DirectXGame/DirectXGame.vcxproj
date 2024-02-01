@@ -122,6 +122,7 @@
     <ClCompile Include="MATHEX.cpp" />
     <ClCompile Include="RailCamera.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="WorldTransformEX.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="RailCamera.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="Skydome.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
