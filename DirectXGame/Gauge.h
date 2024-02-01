@@ -20,7 +20,7 @@ public:
 
 	void Draw();
 
-	void OnCollision();
+	void Incorrect();
 	void flagOnCollision();
 	void flagOnCollision2();
 
@@ -40,7 +40,7 @@ private:
 	
 	Vector2 size_;
 
-	float speed_ = 1.0f;
+	float speed_ = 0.4f;
 
 	bool flag = false;
 

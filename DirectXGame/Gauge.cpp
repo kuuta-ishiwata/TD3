@@ -43,7 +43,7 @@ void Gauge::Update()
 	if (flag == true) {
 		speed_ = 0;
 	} else {
-		speed_ = 1.0f;
+		speed_ = 0.4f;
 	}
 
 #ifdef _DEBUG
@@ -69,11 +69,7 @@ void Gauge::Draw()
 }
 
 
-void Gauge::OnCollision() 
-{
-	
-}
-
+void Gauge::Incorrect() { size_.y -= 10.0f; }
 
 void Gauge::flagOnCollision() { flag = true; }
 

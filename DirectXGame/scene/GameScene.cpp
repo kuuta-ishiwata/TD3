@@ -38,7 +38,7 @@ void GameScene::CheckAllCollisions() {
 					
 						gauge->flagOnCollision();
 
-						gauge->OnCollision();
+						
 						
 					
 
@@ -243,6 +243,7 @@ void GameScene::Update() {
 				commandCount_ = 0;
 				isCoomand_ = true;
 				isCommandSprite_->SetTextureRect({120.0f, 0.0f}, {120.0f, 120.0f});
+				gauge->Incorrect();
 			}
 		}
 	}
