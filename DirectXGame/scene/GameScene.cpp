@@ -38,7 +38,7 @@ void GameScene::CheckAllCollisions() {
 					
 						gauge->flagOnCollision();
 
-						
+					
 						
 					
 
@@ -77,7 +77,8 @@ void GameScene::Initialize() {
 	//サウンドデータ読み込み
 	BgmHandle = audio_->LoadWave("Gamebgm.wav");
 	audio_->PlayWave(BgmHandle);
-
+	SeHandle[0] = audio_->LoadWave("InosisiSE.wav");
+	SeHandle[1] = audio_->LoadWave("HurmanSE.wav");
 
 	// テクスチャ
 	textureHandle_ = TextureManager::Load("inoshishi/tex.png");
@@ -238,6 +239,7 @@ void GameScene::Update() {
 			commandCount_ = 0;
 			enemyKillCount_++;
 			scoreSprite_->OnCollision();
+			audio_->PlayWave(SeHandle[1]);
 		}
 		// 時間切れ
 		else {
@@ -251,7 +253,7 @@ void GameScene::Update() {
 				isCoomand_ = true;
 				isCommandSprite_->SetTextureRect({120.0f, 0.0f}, {120.0f, 120.0f});
 				gauge->Incorrect();
-
+				audio_->PlayWave(SeHandle[0]);
 
 			}
 		}
@@ -278,6 +280,11 @@ void GameScene::Update() {
 	worldTransform_.UpdateMatrix();
 
 	scoreSprite_->Update();
+
+	/*if (isTimeStop_ == true)
+	{
+		audio_->PlayWave(SeHandle[0]);
+	}*/
 
 	if (isTimeStop_ == false)
 	{

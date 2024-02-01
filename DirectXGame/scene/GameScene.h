@@ -148,6 +148,7 @@ private: // メンバ変数
 	//ゲームbgm
 	uint32_t BgmHandle = 0;
 
-
+	//ゲーム効果音
+	uint32_t SeHandle[2] = {0, 0};
 
 };
