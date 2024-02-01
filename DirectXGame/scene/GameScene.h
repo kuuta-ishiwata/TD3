@@ -7,6 +7,7 @@
 #include "Tree.h"
 #include"Score.h"
 #include "Gauge.h"
+#include "Audio.h"
 
 /// <summary>
 /// ゲームシーン
@@ -141,7 +142,12 @@ private: // メンバ変数
 
 	std::unique_ptr<Score> scoreSprite_;
 
-    Gauge* gauge = nullptr;
+    
+	Gauge* gauge = nullptr;
 	
+	//ゲームbgm
+	uint32_t BgmHandle = 0;
+
+
 
 };

@@ -74,6 +74,11 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 	viewProjection_.farZ = 1400.0f;
 
+	//サウンドデータ読み込み
+	BgmHandle = audio_->LoadWave("Gamebgm.wav");
+	audio_->PlayWave(BgmHandle);
+
+
 	// テクスチャ
 	textureHandle_ = TextureManager::Load("inoshishi/tex.png");
 	// コマンド
