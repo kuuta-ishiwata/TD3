@@ -100,7 +100,7 @@ private: // メンバ変数
 	std::unique_ptr<Model> loadModel_;
 
 	// 木
-	std::unique_ptr<Tree> tree_[80];
+	std::unique_ptr<Tree> tree_[120];
 	std::unique_ptr<Model> treeModel_;
 
 	//コマンド

@@ -34,6 +34,7 @@ void Player::Update(ViewProjection& viewProjection) {
 	 //	isAttack_ = true;
 	 //}
 
+
 	// 攻撃
 	if (isAttack_) {
 		Attack();

@@ -20,26 +20,33 @@ void GameScene::CheckAllCollisions() {
 		// 交差判定
 		if (posA.z + 1.0f >= posB.z && posA.z <= posB.z + 1.0f) {
 			if (posA.y + 1.0f >= posB.y && posA.y <= posB.y + 1.0f) {
-				if (posA.x + 1.0f >= posB.x && posA.x <= posB.x + 1.0f) {
+				if (posA.x + 1.0f >= posB.x && posA.x <= posB.x + 1.0f) 
+				{
+
 					player_->AttackOnCollision();
 
 					// 攻撃している時
-					if (player_->isAttack()) {
+					if (player_->isAttack()) 
+					{
+
 						// コマンドリセット
 						gameInput_->Reset();
-						
 						// コマンド決定
 						gameInput_->Update();
 						// 時間を止める処理
 						isTimeStop_ = true;
+
+
 					} else {
 						// 自キャラの衝突時コールバックを呼び出す
 						player_->OnCollision();
 					
 					}
+
 					// 敵キャラの衝突時コールバックを呼び出す
 					enemy->OnCollision();
 					commandCount_ = 0;
+
 				}
 			}
 		}
@@ -273,9 +280,12 @@ void GameScene::Draw() {
 
 	road_->Draw(viewProjection_);
 
-	for (int i = 0; i < 40; ++i) {
-		if (player_->GetWorldPosition().y <= 5.0f) {
-			if (player_->GetWorldPosition().z - 15.0f <= float(i * 10.0f)) {
+	for (int i = 0; i < 40; ++i)
+	{
+		if (player_->GetWorldPosition().y <= 5.0f) 
+		{
+			if (player_->GetWorldPosition().z - 15.0f <= float(i * 10.0f))
+			{
 				tree_[i]->Draw(viewProjection_, Vector3{5.4f, 0, float(i * 10)});
 				tree_[i + 40]->Draw(viewProjection_, Vector3{-5.4f, 0, float(i * 10)});
 			}
