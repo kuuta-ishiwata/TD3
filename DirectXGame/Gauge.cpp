@@ -16,6 +16,7 @@ void Gauge::Initialize()
 	GaugeSprite_->SetSize(size_);
 
 	size_ = {100,400};
+	isSize_ = false;
 
 }
 
@@ -28,6 +29,10 @@ void Gauge::Update()
 		size_.y -= speed_;
 		GaugeSprite_->SetSize(size_);
 
+	}
+
+	if (size_.y <= 0) {
+		isSize_ = true;
 	}
 
 

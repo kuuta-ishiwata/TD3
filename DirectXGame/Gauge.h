@@ -24,6 +24,8 @@ public:
 	void flagOnCollision();
 	void flagOnCollision2();
 
+	bool IsSize() { return isSize_; }
+
 private:
 
 
@@ -45,5 +47,7 @@ private:
 	bool flag = false;
 
 	int ImGuiflag = 0;
+
+	bool isSize_ = false;
 
 };

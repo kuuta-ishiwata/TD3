@@ -41,6 +41,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void GameReset();
+
 	/// <summary>
 	// 敵発生コマンドの更新
 	/// </summary>
