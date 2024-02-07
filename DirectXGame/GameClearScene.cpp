@@ -7,11 +7,12 @@ GameClearScene::~GameClearScene(){
 };
 
 void GameClearScene::Initialize() {
+
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	uint32_t textureTitle = TextureManager::Load("sample.png");
+	uint32_t textureTitle = TextureManager::Load("finish.png");
 
 	titlesprite_ =
 	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
@@ -19,17 +20,23 @@ void GameClearScene::Initialize() {
 	score_ = std::make_unique<Score>();
 	score_->Initialize();
 	
-}
 
-void GameClearScene::Update() {
 	/*pos_[0] = {650.0f, 360.0f};
 	pos_[1] = {630.0f, 360.0f};
 	pos_[0] = score_->GetPos();
 	pos_[1] = score_->GetPos2();
 	pos_[0].x++;
-	
+
 	score_->SetPos(pos_[0]);
 	score_->SetPos2(pos_[1]);*/
+
+
+}
+
+void GameClearScene::Update() {
+
+
+	
 	isClear_ = true;
 	if (input_->PushKey(DIK_SPACE)) {
 		isSceneEnd_ = true;
@@ -74,9 +81,8 @@ void GameClearScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
-	titlesprite_->Draw();
 	score_->Draw();
+	titlesprite_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
