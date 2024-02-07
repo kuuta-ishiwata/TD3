@@ -175,6 +175,8 @@ void GameScene::Initialize() {
 
 	scoreSprite_ = std::make_unique<Score>();
 	scoreSprite_->Initialize();
+
+
 }
 
 void GameScene::Update() {
@@ -241,6 +243,8 @@ void GameScene::Update() {
 			scoreSprite_->OnCollision();
 			audio_->PlayWave(SeHandle[1]);
 		}
+
+
 		// 時間切れ
 		else {
 			if (++commandCount_ >= 120)
@@ -267,13 +271,14 @@ void GameScene::Update() {
 	}
 
 #ifdef _DEBUG
-
+	/*
 	ImGui::Begin("window");
 	if (ImGui::TreeNode("Enemy")) {
 		ImGui::Text("kill count %d", enemyKillCount_);
 		ImGui::TreePop();
 	}
 	ImGui::End();
+	*/
 
 #endif // _DEBUG
 

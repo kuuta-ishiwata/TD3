@@ -47,13 +47,14 @@ void Gauge::Update()
 	}
 
 #ifdef _DEBUG
+	/*
 	ImGui::Begin("window");
 
 	ImGui::DragInt("flag", &ImGuiflag);
 
 	
 	ImGui::End();
-
+	*/
 #endif // _DEBUG
 
 }

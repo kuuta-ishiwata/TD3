@@ -3,6 +3,7 @@
 
 void Score::Initialize() {
 
+
 	pos_[0] = {55.0f, 55.0f};
 	pos_[1] = {35.0f, 55.0f};
 
@@ -47,15 +48,20 @@ void Score::Initialize() {
 	sprite_[12] = Sprite::Create(textureSprite_[12], {70.0f,20.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
 
 	counter_ = 0;
+
 }
 
 void Score::Update() 
 {
+	
+
+
 
 }
 
 void Score::Draw() 
 { 
+
 	if (counter_ == 0 || counter_ == 10 || counter_ == 20) {
 		sprite_[0]->Draw();
 	} else if (counter_ == 1||counter_==11||counter_==21) {

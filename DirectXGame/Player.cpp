@@ -55,7 +55,7 @@ void Player::Update(ViewProjection& viewProjection) {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 
 #ifdef _DEBUG
-
+	/*
 	ImGui::Begin("window");
 	if (ImGui::TreeNode("Player")) {
 		ImGui::SliderFloat3("translation", &worldTransform_.translation_.x, -10, 10);
@@ -73,7 +73,7 @@ void Player::Update(ViewProjection& viewProjection) {
 	ImGui::Begin("A");
 	ImGui::Text("%fl", sizeof(input_->GetAllKey()));
 	ImGui::End();
-
+	*/
 
 #endif // _DEBUG
 	worldTransform_.UpdateMatrix();

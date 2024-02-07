@@ -22,7 +22,7 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 
 	worldTransformBase_.Initialize();
 	worldTransformBase_.scale_ = {1.0f, 1.0f, 1.0f};
-
+	
 	worldTransformBody_.Initialize();
 	worldTransformBody_.parent_ = &worldTransformBase_;
 
@@ -34,11 +34,15 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 
 	worldTransformBody4_.Initialize();
 	worldTransformBody4_.parent_ = &worldTransformBody_;*/
+
+	
+
 }
 
 void Enemy::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
 
 void Enemy::UpdateFloatingGimmick() {
+
 	// 浮遊移動のサイクル<frame>
 	const uint16_t period = 120;
 
