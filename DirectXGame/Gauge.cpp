@@ -30,7 +30,6 @@ void Gauge::Update()
 
 	}
 
-
 	if (flag == true)
 	{
 		ImGuiflag = 1;

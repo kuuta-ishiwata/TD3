@@ -8,6 +8,7 @@ GameClearScene::~GameClearScene(){
 
 void GameClearScene::Initialize() {
 
+
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -16,6 +17,7 @@ void GameClearScene::Initialize() {
 
 	titlesprite_ =
 	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+
 
 	score_ = std::make_unique<Score>();
 	score_->Initialize();
@@ -33,15 +35,15 @@ void GameClearScene::Initialize() {
 
 }
 
-void GameClearScene::Update() {
-
-
+void GameClearScene::Update()
+{
 	
 	isClear_ = true;
 	if (input_->PushKey(DIK_SPACE)) {
 		isSceneEnd_ = true;
 	}
 	score_->Update();
+
 }
 
 void GameClearScene::Draw() {

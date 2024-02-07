@@ -246,6 +246,7 @@ void GameScene::Update() {
 			enemyKillCount_++;
 			scoreSprite_->OnCollision();
 			audio_->PlayWave(SeHandle[1]);
+
 		}
 
 
