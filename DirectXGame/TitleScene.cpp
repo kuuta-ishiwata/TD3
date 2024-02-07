@@ -18,7 +18,8 @@ void TitleScene::Initialize() {
 }
 
 void TitleScene::Update() { 
-	if (input_->PushKey(DIK_SPACE))
+		timer_++;
+	if (input_->PushKey(DIK_SPACE) && timer_ >= 20)
 	{
 		isSceneEnd_ = true;
 	}
@@ -72,4 +73,6 @@ void TitleScene::Draw() {
 }
 
 void TitleScene::Reset() 
-{ isSceneEnd_ = false; }
+{ isSceneEnd_ = false;
+	timer_ = 0;
+}

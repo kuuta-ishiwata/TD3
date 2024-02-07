@@ -190,11 +190,16 @@ void GameScene::Update() {
 
 	viewProjection_.TransferMatrix();
 
-	/*if (input_->PushKey(DIK_LSHIFT))
+	if (input_->PushKey(DIK_LSHIFT))
 	{
 		
 		isGameClear_ = true;
-	}*/
+	}
+
+	if (gauge->IsSize()) {
+
+		isGameClear_ = true;
+	}
 
 	scoreSprite_->Update();
 	// 天球
@@ -386,6 +391,18 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::GameReset() 
+{
+	isGameClear_ = false;
+	gauge->Initialize();
+	player_->Initialize(model_.get(), textureHandle_);
+	// エネミー
+	UpdateEnemyPopCommands();
+	scoreSprite_->Reset();
+	gameInput_->Reset();
+	gameInput_->Initialize();
 }
 
 // 敵発生コマンドの更新

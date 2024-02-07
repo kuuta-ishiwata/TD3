@@ -22,7 +22,8 @@ void GameClearScene::Initialize() {
 	score_ = std::make_unique<Score>();
 	score_->Initialize();
 	
-
+	result_ = std::make_unique<Result>();
+	result_->Initialize();
 	/*pos_[0] = {650.0f, 360.0f};
 	pos_[1] = {630.0f, 360.0f};
 	pos_[0] = score_->GetPos();
@@ -42,8 +43,8 @@ void GameClearScene::Update()
 	if (input_->PushKey(DIK_SPACE)) {
 		isSceneEnd_ = true;
 	}
-	score_->Update();
-
+	//score_->Update();
+	result_->Update();
 }
 
 void GameClearScene::Draw() {
@@ -57,7 +58,7 @@ void GameClearScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-
+	titlesprite_->Draw();
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -83,8 +84,8 @@ void GameClearScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	score_->Draw();
-	titlesprite_->Draw();
+	//score_->Draw();
+	result_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -94,3 +95,8 @@ void GameClearScene::Draw() {
 
 void GameClearScene::Reset() 
 { isSceneEnd_ = false; }
+
+void GameClearScene::GameReset() {
+	result_->Initialize();
+	result_->Reset();
+}

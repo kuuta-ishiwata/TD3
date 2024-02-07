@@ -42,4 +42,6 @@ private:
 
 	Sprite* titlesprite_ = nullptr;
 
+	int32_t timer_;
+
 };

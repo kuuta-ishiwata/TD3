@@ -102,7 +102,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			gamedescriptionscene->Update();
 			if (gamedescriptionscene->IsSceneEnd()) {
 				sceneNo = gamedescriptionscene->NextScene();
-
+				gameScene->GameReset();
+				gameclearscene->GameReset();
 				
 			}
 			break;
@@ -110,7 +111,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			
 			// ゲームシーンの毎フレーム処理
 			gameScene->Update();
-
+			gameclearscene->Update();
 			if (gameScene->IsGameClear()) {
 				sceneNo = gameScene->NextGameScene();
 				gameclearscene->Reset();

@@ -10,6 +10,7 @@
 #include "WorldTransform.h"
 #include "Scene.h"
 #include"Score.h"
+#include"Result.h"
 #include<memory>
 class GameClearScene {
 public:
@@ -32,8 +33,10 @@ public:
 
 	void Reset();
 
+	void GameReset();
+
 	bool IsSceneEnd() { return isSceneEnd_; }
-	Scene::SceneType NextScene() { return Scene::SceneType::kGameDescription; }
+	Scene::SceneType NextScene() { return Scene::SceneType::kTitle; }
 
 	bool IsClear() { return isClear_; }
 
@@ -47,6 +50,7 @@ private:
 	Sprite* titlesprite_ = nullptr;
 
 	std::unique_ptr<Score> score_;
+	std::unique_ptr<Result> result_;
 
 	bool isClear_ = false;
 
