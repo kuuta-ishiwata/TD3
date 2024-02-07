@@ -8,6 +8,7 @@
 #include"Score.h"
 #include "Gauge.h"
 #include "Audio.h"
+#include"Scene.h"
 
 /// <summary>
 /// ゲームシーン
@@ -63,6 +64,9 @@ public: // メンバ関数
 
 	// 衝突判定
 	void CheckAllCollisions();
+
+	bool IsGameClear() { return isGameClear_; }
+	Scene::SceneType NextGameScene() { return Scene::SceneType::kGameClear; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -131,6 +135,7 @@ private: // メンバ変数
 	float count = 0;
 
 	bool isTimeStop_ = false;
+	bool isGameClear_ = false;
 
 	int commandCount_ = 0;
 

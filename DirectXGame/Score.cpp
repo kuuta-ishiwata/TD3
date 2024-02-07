@@ -1,11 +1,14 @@
 #include "Score.h"
 #include <TextureManager.h>
 
+
 void Score::Initialize() {
 
 
 	pos_[0] = {55.0f, 55.0f};
 	pos_[1] = {35.0f, 55.0f};
+
+	
 
 	textureSprite_[0] = TextureManager::Load("Point/Point0.png");
 	sprite_[0] = Sprite::Create(textureSprite_[0], pos_[0], {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
@@ -54,8 +57,9 @@ void Score::Initialize() {
 void Score::Update() 
 {
 	
-
-
+		pos_[0] = {650.0f, 360.0f};
+		pos_[1] = {630.0f, 360.0f};
+	  
 
 }
 

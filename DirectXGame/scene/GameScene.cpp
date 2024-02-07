@@ -190,9 +190,13 @@ void GameScene::Update() {
 
 	viewProjection_.TransferMatrix();
 
-	
+	/*if (input_->PushKey(DIK_LSHIFT))
+	{
+		
+		isGameClear_ = true;
+	}*/
 
-
+	scoreSprite_->Update();
 	// 天球
 	skydome_->Update();
 
@@ -284,7 +288,7 @@ void GameScene::Update() {
 
 	worldTransform_.UpdateMatrix();
 
-	scoreSprite_->Update();
+	
 
 	/*if (isTimeStop_ == true)
 	{

@@ -2,6 +2,9 @@
 #include"Vector2.h"
 #include <cstdint>
 #include"Sprite.h"
+
+
+
 class Score {
 public:
 	void Initialize();
@@ -14,6 +17,8 @@ public:
 
 	void Reset();
 
+	
+
 	private:
 	Vector2 pos_[2];
 
@@ -22,5 +27,7 @@ public:
 	Sprite* sprite_[13] = {nullptr,nullptr};
 
 	int32_t counter_;
+
+
 
 };
