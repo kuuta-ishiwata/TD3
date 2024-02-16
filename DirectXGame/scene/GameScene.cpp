@@ -190,11 +190,11 @@ void GameScene::Update() {
 
 	viewProjection_.TransferMatrix();
 
-	if (input_->PushKey(DIK_LSHIFT))
-	{
-		
-		isGameClear_ = true;
-	}
+	//if (input_->PushKey(DIK_LSHIFT))
+	//{
+	//	
+	//	isGameClear_ = true;
+	//}
 
 	if (gauge->IsSize()) {
 
